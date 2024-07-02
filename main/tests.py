@@ -28,16 +28,21 @@ class DatabaseTest(TestCase):
             thread=self.sample_thread,
             body="This is a reply.",
         )
+        self.sample_reply_2 = Reply.objects.create(
+            username=self.sample_user,
+            thread=self.sample_thread,
+            body="This is another reply.",
+        )
 
     def test_search_ids(self):
-        self.assertEqual(Board.objects.filter(board_id="pup"), 'pup', "pup is not found!")
-        self.assertEqual(Role.objects.filter(name="User"), 'User', "User Role is not found!")
-        self.assertEqual(University.objects.filter(university_id="pup"), 'pup', "pup is not found!")
-        self.assertEqual(User.objects.filter(username="Anonymous"), 'Anonymous', "anon is not found!")
-        self.assertEqual(Thread.objects.filter(username="Anonymous"), 'Anonymous', "anon is not found!")
-
-
-    
+        self.assertEqual(Board.objects.filter(board_id="pup")[0].board_id, 'pup', "pup is not found!")
+        self.assertEqual(Role.objects.filter(name="User")[0].name, 'User', "User Role is not found!")
+        self.assertEqual(University.objects.filter(university_id="pup")[0].university_id, 'pup', "pup is not found!")
+        self.assertEqual(User.objects.filter(username="Anonymous")[0].username, 'Anonymous', "anon is not found!")
+        self.assertEqual(Thread.objects.filter(username="Anonymous")[0].username.username, 'Anonymous', "anon is not found!")
+        self.assertEqual(Reply.objects.filter(id=1)[0].id, 1, "post not found!")
+        self.assertEqual(Reply.objects.filter(id=2)[0].body, "This is another reply.", "post not found!")
+        
 class BoardTest(TestCase):
     def setUp(self):
         Board.objects.create(board_id="pup", name="Polytecnic Universitiy of The Philippines")
@@ -56,7 +61,6 @@ class BoardTest(TestCase):
         self.assertEqual(boards[1].board_id, 'up', "up is not found!")
 
         self.assertNotEqual(boards[2].board_id, 'ust', "ust is randomly found!")
-
 
 class ThreadTest(TestCase):
     def setUp(self):
