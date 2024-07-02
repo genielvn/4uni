@@ -37,16 +37,19 @@ def threads(request, board_id):
 
 def create_thread(request, board_id):
     board = get_object_or_404(Board, board_id=board_id)
-    print(request.method)
+
+    context = {
+        'view': 'main/create-thread.html', 
+        'board_id': board_id, 
+        'board_name': board.name
+    }
 
     if request.method == "GET":
-        return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board.name})
-
+        return render(request, "base.html", context)
     elif request.method == "POST":
         form = ThreadForm(request.POST)
         if form.is_valid():
             thread = form.save(commit=False)
-
             thread.board = board
 
             # TODO: This is temporary for users
@@ -72,6 +75,22 @@ def thread(request, board_id, thread_id):
     
     elif request.method == 'POST':
         form = ReplyForm(request.POST)
+def post(request, board_id, thread_id):
+    board = get_object_or_404(Board, board_id=board_id)
+    thread = get_object_or_404(Thread, id=thread_id, board_id=board_id)
+    replies = Reply.objects.filter(thread=thread)
+
+    if request.method == "GET":
+        context = {
+            'view': 'main/post.html', 
+            'board_id': board_id, 
+            'board_name': board.name, 
+            'thread_topic': thread,
+            'replies': replies
+        }
+        return render(request, "base.html", context)
+    elif request.method == "POST":
+        form = CommentForm(request.POST)
         if form.is_valid():
             reply = form.save(commit=False)
             reply.thread = thread
@@ -122,3 +141,8 @@ def signup(request):
 def logout(request):
     auth_logout(request)
     return redirect('/')
+            # TODO: This is temporary for users
+            reply.username = User.objects.filter(username="Anonymous")[0]
+            reply.save()
+
+            return redirect('main:post', board_id=board_id, thread_id=thread_id)
