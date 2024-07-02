@@ -18,13 +18,14 @@ class BoardTest(TestCase):
         boards = Board.objects.all()
         self.assertEqual(boards[0].board_id, 'pup', "pup is not found!")
         self.assertEqual(boards[1].board_id, 'up', "up is not found!")
+
         self.assertNotEqual(boards[2].board_id, 'ust', "ust is randomly found!")
 
 
 class ThreadTest(TestCase):
     def setUp(self):
         Board.objects.create(board_id="pup", name="Polytecnic Universitiy of The Philippines")
-        Board.objects.create(board_id="up", name="Universitiy of The Philippines")
+        Board.objects.create(board_id="up", name="Universitiy of The Philippines", description="“Honor, Excellence, Service”")
         Board.objects.create(board_id="tip", name="Technological Institute of The Philippines")
 
         Role.objects.create(name="User")
