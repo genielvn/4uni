@@ -46,8 +46,9 @@ thread_topic = {
 def boards(request):
     pagination = request.GET.get('page')
 
-    boards = Board.objects.all()
-    return render(request, "base.html", {'view': 'main/boards.html', 'boards': boards})
+    if request.method == 'GET':
+        boards = Board.objects.all()
+        return render(request, "base.html", {'view': 'main/boards.html', 'boards': boards})
 
 def threads(request, board_id):
     # pagination = request.GET.get('page')
