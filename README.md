@@ -12,3 +12,4 @@ SECRET_KEY=<paste it here>
 ```
 
 a random test here
+arch test here
