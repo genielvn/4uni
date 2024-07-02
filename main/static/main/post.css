@@ -21,6 +21,10 @@
     min-width: 500px;
 }
 
-#comments {
+.comment {
     padding: 15px;
+    border: 2px #f180b3 solid;
+    margin: 10px 0px;
+    border-radius: 20px;
 }
+
