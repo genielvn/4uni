@@ -47,27 +47,29 @@ def boards(request):
     pagination = request.GET.get('page')
 
     if request.method == 'GET':
-        boards = Board.objects.all()
-        return render(request, "base.html", {'view': 'main/boards.html', 'boards': boards})
+        context = {
+            'view': 'main/boards.html',
+            'boards': Board.objects.all()
+        }
+        return render(request, "base.html", context)
 
 def threads(request, board_id):
     # pagination = request.GET.get('page')
     # if board_id not in Board.objects.values_list('id', flat=True):
     if request.method == 'GET':
-        board = get_object_or_404(Board, board_id=board_id)
+        context = {
+            'view': 'main/threads.html',
+            'board_id': board_id,
+            'board': get_object_or_404(Board, board_id=board_id),
+            'threads': Thread.objects.filter(board_id=board_id)
+        }
 
-        thread = Thread.objects.filter(board=board)
-
-        return render(request, "base.html", {'view': 'main/threads.html', 'board_id': board_id, 'board_name': board.name, 'threads': thread})
+        return render(request, "base.html", context)
 
 def create_thread(request, board_id):
-    if not any(b["board_id"] == board_id for b in board):
-        response = render(request, "404.html")
-        response.status_code = 404
-        return response
-    board_name = next((b for b in board if b['board_id'] == board_id), None)
+    board = get_object_or_404(Board, board_id=board_id)
 
-    return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board_name['name']})
+    return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board.name})
 
 def post(request, board_id, thread_id):
     if not any(b["board_id"] == board_id for b in board):

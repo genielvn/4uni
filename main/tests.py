@@ -1,7 +1,43 @@
 from django.test import TestCase
-from main.models import Board, Thread, User, Role, University
+from main.models import Board, Thread, User, Role, University, Reply
 
 # Create your tests here.
+class DatabaseTest(TestCase):
+    def setUp(self):
+        self.sample_board = Board.objects.create(board_id="pup", name="Polytecnic Universitiy of The Philippines")
+        self.sample_role = Role.objects.create(name="User")
+        self.sample_uni = University.objects.create(
+            university_id = "pup",
+            name = "Polytecnic Universitiy of The Philippines",
+            verified = True
+        )
+        self.sample_user = User.objects.create(
+            username="Anonymous",
+            password="test",
+            role=self.sample_role,
+            university=self.sample_uni
+        )
+        self.sample_thread = Thread.objects.create(
+            title="Title 1",
+            board=self.sample_board,
+            username=self.sample_user,
+            body="This is a body from Title 1"
+        )
+        self.sample_reply = Reply.objects.create(
+            username=self.sample_user,
+            thread=self.sample_thread,
+            body="This is a reply.",
+        )
+
+    def test_search_ids(self):
+        self.assertEqual(Board.objects.filter(board_id="pup"), 'pup', "pup is not found!")
+        self.assertEqual(Role.objects.filter(name="User"), 'User', "User Role is not found!")
+        self.assertEqual(University.objects.filter(university_id="pup"), 'pup', "pup is not found!")
+        self.assertEqual(User.objects.filter(username="Anonymous"), 'Anonymous', "anon is not found!")
+        self.assertEqual(Thread.objects.filter(username="Anonymous"), 'Anonymous', "anon is not found!")
+
+
+    
 class BoardTest(TestCase):
     def setUp(self):
         Board.objects.create(board_id="pup", name="Polytecnic Universitiy of The Philippines")
