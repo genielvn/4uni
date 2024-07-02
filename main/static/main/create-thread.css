@@ -1,0 +1,4 @@
+#create-thread-body {
+    display: flex;
+    flex-direction: column;
+}

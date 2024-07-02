@@ -1,10 +1,10 @@
 <main id="threads">
     <a class="back-to-boards" href="/">
-        {{ board_name }}
+        <- {{ board_name }}
     </a>
     <div id="threads-header">
         <h1>Threads</h1>
-        <button id="create-thread" onclick="" >Create Thread</button>
+        <button id="create-thread" onclick="window.location=`/{{ board_id }}/create`" >Create Thread</button>
     </div>
     {% for thread in threads %}
     <div class="thread">

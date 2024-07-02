@@ -57,6 +57,15 @@ def threads(request, board_id):
     board_name = next((b for b in board if b['board_id'] == board_id), None)
     return render(request, "base.html", {'view': 'main/threads.html', 'board_id': board_id, 'board_name': board_name['name'], 'threads': thread})
 
+def create_thread(request, board_id):
+    if not any(b["board_id"] == board_id for b in board):
+        response = render(request, "404.html")
+        response.status_code = 404
+        return response
+    board_name = next((b for b in board if b['board_id'] == board_id), None)
+
+    return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board_name['name']})
+
 def post(request, board_id, thread_id):
     if not any(b["board_id"] == board_id for b in board):
         response = render(request, "404.html")
