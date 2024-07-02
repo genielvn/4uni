@@ -5,7 +5,10 @@
         <div class="board-name">
             <a href="/{{board.board_id}}">{{ board.board_id }}: {{ board.name }}</a>
         </div>
-        <div class="recent">
+        <div class="board-description">
+            {{ board.description }}
+        </div>
+        {% comment %} <div class="recent">
             <div class="recent-left">
                 <div class="recent-thread">Recent Thread</div>
                 <div class="recent-content">
@@ -20,7 +23,7 @@
                     59 minutes ago by Smilie Pop
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
     {% endfor %}
 </main>
