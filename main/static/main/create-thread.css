@@ -2,3 +2,8 @@
     display: flex;
     flex-direction: column;
 }
+
+#new-thread-form {
+    display: flex;
+    flex-direction: column;
+}
