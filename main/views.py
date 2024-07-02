@@ -1,7 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from main.models import Board, Thread
+from django.views.generic import (
+    ListView
+)
+
+from .forms import ThreadForm
+from main.models import Board, Thread, User
 
 board = [
     {
@@ -41,7 +46,6 @@ thread_topic = {
     ]
 }
 
-
 # Create your views here.
 def boards(request):
     pagination = request.GET.get('page')
@@ -68,8 +72,24 @@ def threads(request, board_id):
 
 def create_thread(request, board_id):
     board = get_object_or_404(Board, board_id=board_id)
+    print(request.method)
 
-    return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board.name})
+    if request.method == "GET":
+        return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board.name})
+    elif request.method == "POST":
+        form = ThreadForm(request.POST)
+        if form.is_valid():
+            thread = form.save(commit=False)
+
+            thread.board = board
+
+            # TODO: This is temporary for users
+            thread.username = User.objects.filter(username="Anonymous")[0]
+            thread.save()
+
+            # TODO: Redirect to the thread itself
+            return redirect('main:threads', board_id=board_id)
+        
 
 def post(request, board_id, thread_id):
     if not any(b["board_id"] == board_id for b in board):
