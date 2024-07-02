@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/404.css' %}">
+    <title>4uni</title>
+</head>
+<body>
+    <div id="main-content">
+      {% include "main/header.html" %}
+        <main id="page-not-found">
+            <img src="https://cdn.donmai.us/original/b1/3a/__reiuji_utsuho_touhou_drawn_by_guuchama__b13a096cc7a37a67afd54dd0037836d0.png" alt="" id="image-404">
+            <div id="description-404">
+                <h1>404!</h1>
+                <h4>Page not found! Did you type the link correctly?</h2>
+            </div>
+        </main>
+      {% include "main/footer.html" %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<main id="post">
+    <a id="back-to-threads" href="/{{board_id}}">    
+        <- {{ board_name }} / <span id="thread-title-back"> {{ thread_topic.title }}</span>
+    </a>
+    <div id="main">
+        <h1 id="thread-title">{{ thread_topic.title }}</h1>
+        <div id="thread-description">{{ thread_topic.description }}</div>
+    </div>
+    <div id="input-comment">
+        <textarea id="new-comment" placeholder="What's on your mind?" > </textarea>
+        <button id="submit-comment">Comment</button>
+    </div>
+    <div id="comments">
+        {% for comment in thread_topic.comments  %}
+        <div class="comment">
+            <div class="comment-name">Anonymous</div>
+            <div class="comment-content">{{ comment }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</main>

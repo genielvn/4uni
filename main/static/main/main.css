@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    color: #f0eeef;
+}
+
+#main-content {
+    display: flex;
+    flex-direction: column;
+    background-color: #070406;
+    padding: 0px 60px;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    margin: 15px 0px;
+    justify-content: space-between;
+}
+
+main {
+    display: flex;
+    flex-grow: 1;
+}
+
+footer {
+    margin: 0px -60px;
+    padding: 15px 0px;
+    background-color: red;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="text"] {
+    background-color: #ffffff00;
+    border-radius: 20px;
+    border: solid #ff52a2 2px;
+    padding: 0 15px;
+}
+
+textarea {
+    background-color: #ffffff00;
+    border-radius: 20px;
+    border: solid #ff52a2 2px;
+    padding: 15px;
+}
+
+#nav-right {
+    display: flex;
+    justify-content: flex-end;
+    width: 75%;
+}
+
+#search-bar {
+    color: #f0eeef;
+    max-width: 360px;
+    min-width: 200px;
+    width: 100%;
+    height: 40px;
+    margin: 0 10px;
+}
+
+button {
+    background-color: #f31d81;
+    color: #070406;
+    height: 40px;
+    border-radius: 20px;
+    padding: 0px 15px;
+    border: none;
+}

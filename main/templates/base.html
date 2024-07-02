@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{% static 'main/main.css' %}">   
+   <link rel="stylesheet" href="{% static 'main/boards.css' %}">   
+   <link rel="stylesheet" href="{% static 'main/threads.css' %}">   
+   <link rel="stylesheet" href="{% static 'main/post.css' %}">   
+   <title>{{title}}</title>
+</head>
+<body>
+   <div id="main-content">
+      {% include "main/header.html" %}
+      {% include view %}
+      {% include "main/footer.html" %}
+   </div>
+</body>
+</html>

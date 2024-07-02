@@ -1,0 +1,67 @@
+#threads {
+    display: flex;
+    flex-direction: column;
+}
+
+.thread {
+    background-color: #f180b3;
+    margin: 4px 0;
+    padding: 15px;
+    border-radius: 13px;
+    display: flex;
+    flex-direction: column;
+}
+
+.thread-name > a {
+    font-size: 1.1em;
+    color: #070406;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.thread-name > a:hover {
+    text-decoration: underline;
+}
+
+#threads-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.details {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.details div {
+    color: #070406;
+}
+
+.details-left {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: 10px;
+}
+
+.details-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.details-thread {
+    font-size: 1.15em;
+    font-weight: 600;
+    width: 100%;
+}
+
+.details-content {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

@@ -1,0 +1,63 @@
+#boards {
+    display: flex;
+    flex-direction: column;
+}
+
+.board {
+    background-color: #f180b3;
+    margin: 4px 0;
+    padding: 15px;
+    border-radius: 13px;
+    display: flex;
+    flex-direction: column;
+}
+
+.board-name > a {
+    font-size: 1.35em;
+    color: #070406;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.board-name > a:hover {
+    text-decoration: underline;
+}
+
+.recent {
+    width: 100%;
+    display: flex;
+    padding-top: 10px;
+    justify-content: space-between;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.recent div{
+    color: #070406;
+}
+
+.recent-left {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: 10px;
+}
+
+.recent-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.recent-thread {
+    font-size: 1.15em;
+    font-weight: 600;
+    width: 100%;
+}
+
+.recent-content {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

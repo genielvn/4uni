@@ -1,0 +1,26 @@
+#post {
+    display: flex;
+    flex-direction: column;
+}
+
+#main-post {
+    border: 2px #f180b3 solid;
+    border-radius: 20px;
+    margin: 15px 0px;
+    padding: 15px;
+}
+
+#input-comment {
+    height: 150px;
+}
+
+#new-comment {
+    padding: 10px;
+    height: 100%;
+    box-sizing: border-box;
+    min-width: 500px;
+}
+
+#comments {
+    padding: 15px;
+}

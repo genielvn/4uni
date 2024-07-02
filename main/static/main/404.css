@@ -1,0 +1,17 @@
+#page-not-found {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#image-404 {
+    width: 500px;
+}
+
+#description-404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
