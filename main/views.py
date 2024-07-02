@@ -5,8 +5,8 @@ from django.views.generic import (
     ListView
 )
 
-from .forms import ThreadForm
-from main.models import Board, Thread, User
+from .forms import ThreadForm, CommentForm
+from main.models import Board, Thread, User, Reply
 
 board = [
     {
@@ -72,15 +72,19 @@ def threads(request, board_id):
 
 def create_thread(request, board_id):
     board = get_object_or_404(Board, board_id=board_id)
-    print(request.method)
+
+    context = {
+        'view': 'main/create-thread.html', 
+        'board_id': board_id, 
+        'board_name': board.name
+    }
 
     if request.method == "GET":
-        return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board.name})
+        return render(request, "base.html", context)
     elif request.method == "POST":
         form = ThreadForm(request.POST)
         if form.is_valid():
             thread = form.save(commit=False)
-
             thread.board = board
 
             # TODO: This is temporary for users
@@ -92,10 +96,27 @@ def create_thread(request, board_id):
         
 
 def post(request, board_id, thread_id):
-    if not any(b["board_id"] == board_id for b in board):
-        response = render(request, "404.html")
-        response.status_code = 404
-        return response
-    
-    board_name = next((b for b in board if b['board_id'] == board_id), None)
-    return render(request, "base.html", {'view': 'main/post.html', 'board_id': board_id, 'board_name': board_name['name'], 'thread_topic': thread_topic})
+    board = get_object_or_404(Board, board_id=board_id)
+    thread = get_object_or_404(Thread, id=thread_id, board_id=board_id)
+    replies = Reply.objects.filter(thread=thread)
+
+    if request.method == "GET":
+        context = {
+            'view': 'main/post.html', 
+            'board_id': board_id, 
+            'board_name': board.name, 
+            'thread_topic': thread,
+            'replies': replies
+        }
+        return render(request, "base.html", context)
+    elif request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.thread = thread
+
+            # TODO: This is temporary for users
+            reply.username = User.objects.filter(username="Anonymous")[0]
+            reply.save()
+
+            return redirect('main:post', board_id=board_id, thread_id=thread_id)

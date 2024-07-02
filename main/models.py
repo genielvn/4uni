@@ -71,7 +71,7 @@ class Thread(models.Model):
 class Reply(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
-    body = models.TextField(null=True, blank=True)
+    body = models.TextField(blank=True)
     img = models.CharField(max_length=255, null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -84,5 +84,5 @@ class Reply(models.Model):
         verbose_name_plural = 'Replies'
 
     def __str__(self):
-        return f'[R] {self.username} to {self.thread}: {self.reply}'
+        return f'[R] {self.username} to {self.thread}: {self.body}'
     
