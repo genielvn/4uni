@@ -1,41 +1,61 @@
 #post {
     display: flex;
     flex-direction: column;
+    padding: 25px;
 }
 
-#main-thread {
-    border: 2px #f180b3 solid;
-    border-radius: 20px;
-    margin: 15px 0px;
-    padding: 15px;
+#thread-body {
+    margin: 25px 0;
 }
 
-#input-reply {
+#thread-author-date {
+    font-size: 0.8em;
+}
+
+#thread-date {
+    color: #5b5b5b;
+    font-style: italic;
+}
+
+#new-reply {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 150px;
     align-items: flex-end;
 }
 
-#new-reply {
+#input-reply {
     padding: 10px;
     height: 100%;
+    width: 100%;
     box-sizing: border-box;
     min-width: 500px;
 }
 
+#input-reply::placeholder {
+    color: #f180b3;
+}
+
 #submit-reply {
-    padding: 0 10px;
-    margin: 0 10px;
+    padding: 10px 20px;
+    margin: 10px 0;
 }
 
 .reply {
-    padding: 15px;
-    border: 2px #f180b3 solid;
-    margin: 10px 0px;
-    border-radius: 20px;
+    border-top: #5b5b5b 1px solid;
+    padding: 15px 0;
 }
 
-.reply-name {
+.reply-details {
     font-weight: 600;
+}
+
+.reply-date {
+    font-weight: normal;
+    font-style: italic;
+    color: #5b5b5b;
+}
+
+.board-recent-thread {
+    padding-top: 10px;
 }
