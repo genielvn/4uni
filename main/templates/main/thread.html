@@ -1,0 +1,29 @@
+<main id="post">
+    <a id="back-to-threads" href="/{{board.board_id}}">    
+        <- {{ board_name }} / <span id="thread-title-back"> {{ thread.title }}</span>
+    </a>
+    <div id="main">
+        <h1 id="thread-title">{{ thread.title }}</h1>
+        <div id="thread-description">{{ thread.body }}</div>
+    </div>
+    <div id="input-comment">
+        <textarea id="new-comment" placeholder="What's on your mind?" ></textarea>
+        <button id="submit-comment">Comment</button>
+    </div>
+    <div id="comments">
+        {% for reply in replies  %}
+        <div class="comment">
+	    <div class="comment-name">{{ reply.username }}</div>
+            <div class="comment-content">{{ reply.body }}</div>
+        </div>
+	{% empty %}
+	<p>No comments yet.</p>
+        {% endfor %}
+	<h3>Post a reply:</h3>
+	<form method="post">
+	    {% csrf_token %}
+	    {{ form.as_p }}
+	    <button type="submit">Post Reply</button>
+	</form>
+    </div>
+</main>

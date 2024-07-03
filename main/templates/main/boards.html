@@ -3,27 +3,11 @@
     {% for board in boards %}
     <div class="board">
         <div class="board-name">
-            <a href="/{{board.board_id}}">{{ board.board_id }}: {{ board.name }}</a>
+            <a href="/{{board.info.board_id}}">{{ board.info.board_id }}: {{ board.info.name }}</a>
         </div>
         <div class="board-description">
-            {{ board.description }}
+            {{ board.info.description }}
         </div>
-        {% comment %} <div class="recent">
-            <div class="recent-left">
-                <div class="recent-thread">Recent Thread</div>
-                <div class="recent-content">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste similique sit nihil, est, expedita dolorem modi.
-                </div>
-            </div>
-            <div class="recent-right">
-                <div class="comments">
-                    69 comments
-                </div>
-                <div class="time-author">
-                    59 minutes ago by Smilie Pop
-                </div>
-            </div>
-        </div> {% endcomment %}
     </div>
     {% endfor %}
 </main>

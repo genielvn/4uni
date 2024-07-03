@@ -1,71 +1,36 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
 from django.views.generic import (
     ListView
 )
 
-from .forms import ThreadForm
-from main.models import Board, Thread, User
+from .forms import ThreadForm, LoginForm, SignupForm
+from main.models import Board, Thread, User, Reply
 
-board = [
-    {
-        'board_id':'r',
-        'name': "Random"
-    },
-    {
-        'board_id':'pup',
-        'name': "Polytechnic University of The Philippines"
-    },
-    {
-        'board_id':'up',
-        'name': "University of The Philippines"
-    },
-    {
-        'board_id':'ust',
-        'name': "University of Santo Tomas"
-    },
-
-]
-
-thread = [
-    {
-        "title": "La Salle Kanal Humor daw",
-        "description": "Ano say niyo dito? Ang funny diba? xD"
-    }
-]
-
-thread_topic = {
-    "title": "La Salle Kanal Humor daw",
-    "description": "Ano say niyo dito? Ang funny diba? xD",
-    "comments": [
-        "cringe ampota",
-        "why are you here, anon",
-        "lmao normie and cringe joke, op thought he has good humor",
-        "9/11 jokes are better than this"
-    ]
-}
-
-# Create your views here.
 def boards(request):
     pagination = request.GET.get('page')
 
     if request.method == 'GET':
         context = {
             'view': 'main/boards.html',
-            'boards': Board.objects.all()
+            'boards': [{'info': board,
+                        'thread': Thread.objects.filter(board=board).order_by('-created_at').first()}
+                       for board in Board.objects.all()]
         }
         return render(request, "base.html", context)
 
 def threads(request, board_id):
     # pagination = request.GET.get('page')
     # if board_id not in Board.objects.values_list('id', flat=True):
+    
     if request.method == 'GET':
         context = {
             'view': 'main/threads.html',
-            'board_id': board_id,
             'board': get_object_or_404(Board, board_id=board_id),
-            'threads': Thread.objects.filter(board_id=board_id)
+            'threads': [{
+                'info': thread,
+                'reply': Reply.objects.filter(thread=thread, is_deleted=False).order_by('-created_at').first()
+                } for thread in Thread.objects.filter(board_id=board_id, is_deleted=False).order_by('-created_at')]
         }
 
         return render(request, "base.html", context)
@@ -76,6 +41,7 @@ def create_thread(request, board_id):
 
     if request.method == "GET":
         return render(request, "base.html", {'view': 'main/create-thread.html', 'board_id': board_id, 'board_name': board.name})
+
     elif request.method == "POST":
         form = ThreadForm(request.POST)
         if form.is_valid():
@@ -90,12 +56,69 @@ def create_thread(request, board_id):
             # TODO: Redirect to the thread itself
             return redirect('main:threads', board_id=board_id)
         
+def thread(request, board_id, thread_id):
+    board = get_object_or_404(Board, board_id=board_id)
+    thread = get_object_or_404(Thread, board=board, id=thread_id, is_deleted=False)
 
-def post(request, board_id, thread_id):
-    if not any(b["board_id"] == board_id for b in board):
-        response = render(request, "404.html")
-        response.status_code = 404
-        return response
+    if request.method == 'GET':
+        context = {
+            'view': 'main/thread.html',
+            'board': board,
+            'thread': thread,
+            'replies': Reply.objects.filter(thread_id=thread_id).order_by('-created_at')
+            }
+
+        return render(request, 'base.html', context)
     
-    board_name = next((b for b in board if b['board_id'] == board_id), None)
-    return render(request, "base.html", {'view': 'main/post.html', 'board_id': board_id, 'board_name': board_name['name'], 'thread_topic': thread_topic})
+    elif request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.thread = thread
+
+            reply.username = request.user
+            reply.save()
+
+            return redirect('main:thread', board_id=board_id, thread_id=thread_id)
+
+def username(request, username):
+    if request.method == 'GET':
+        context = {
+                'view': 'main/user.html',
+                'user': get_object_or_404(User, username=username),
+                'threads': Thread.objects.filter(username=username).order_by('-created_at')
+                }
+
+        return render(request, 'base.html', context)
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            if user is not None:
+                auth_login(request, user)
+                return redirect('/')
+            else:
+                form.add_error(None, 'Invalid username or password')
+    
+    form = LoginForm()
+    return render(request, 'base.html', {'views': 'main/login.html', 'form': form})
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('/')
+
+    else:
+        form = SignupForm()
+
+    return render(request, 'base.html', {'view': 'main/signup.html', 'form': form})
+
+def logout(request):
+    auth_logout(request)
+    return redirect('/')

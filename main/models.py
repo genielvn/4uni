@@ -10,7 +10,6 @@ class Role(models.Model):
         return self.name
 
 class University(models.Model):
-    university_id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)
 
