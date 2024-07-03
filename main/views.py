@@ -6,6 +6,8 @@ from django.views.generic import (
 
 from .forms import ThreadForm, LoginForm, SignupForm
 from main.models import Board, Thread, User, Reply
+from django.db.models import Subquery, OuterRef, Value
+from django.db.models.functions import Coalesce
 
 def boards(request):
     pagination = request.GET.get('page')
@@ -22,7 +24,7 @@ def boards(request):
 def threads(request, board_id):
     # pagination = request.GET.get('page')
     # if board_id not in Board.objects.values_list('id', flat=True):
-    
+    last_reply_subquery = Reply.objects.filter(thread=OuterRef('pk')).order_by('-created_at')
     if request.method == 'GET':
         context = {
             'view': 'main/threads.html',
