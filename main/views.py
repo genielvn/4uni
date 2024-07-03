@@ -146,4 +146,6 @@ def logout(request):
             reply.username = User.objects.filter(username="Anonymous")[0]
             reply.save()
 
-            return redirect('main:post', board_id=board_id, thread_id=thread_id)
+            thread.updated_at = timezone.now()
+            thread.save()
+
