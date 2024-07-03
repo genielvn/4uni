@@ -57,7 +57,7 @@ def create_thread(request, board_id):
             thread.save()
 
             # TODO: Redirect to the thread itself
-            return redirect('main:threads', board_id=board_id)
+            return redirect('main:post', board_id=board_id, thread_id=thread.id)
         
 def thread(request, board_id, thread_id):
     board = get_object_or_404(Board, board_id=board_id)
@@ -89,6 +89,7 @@ def post(request, board_id, thread_id):
             'replies': replies
         }
         return render(request, "base.html", context)
+    
     elif request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
