@@ -106,6 +106,11 @@ def login(request):
             else:
                 form.add_error(None, 'Invalid username or password')
 
+    else:
+        form = LoginForm()
+
+    return render(request, 'login.html', {'form': form})
+
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -117,8 +122,11 @@ def signup(request):
     else:
         form = SignupForm()
 
-    return render(request, 'base.html', {'view': 'main/signup.html', 'form': form})
+    return render(request, 'signup.html', {'form': form})
 
 def logout(request):
     auth_logout(request)
     return redirect('/')
+
+def username(request):
+    pass
