@@ -25,14 +25,14 @@ def threads(request, board_id):
     # pagination = request.GET.get('page')
     # if board_id not in Board.objects.values_list('id', flat=True):
 
-    last_reply_subquery = Reply.objects.filter(thread=OuterRef('pk')).order_by('-created_at')
     if request.method == 'GET':
         context = {
             'view': 'main/threads.html',
             'board': get_object_or_404(Board, board_id=board_id),
             'threads': [{
                 'info': thread,
-                'reply': Reply.objects.filter(thread=thread, is_deleted=False).order_by('-created_at').first()
+                'reply': Reply.objects.filter(thread=thread, is_deleted=False).order_by('-created_at').first(),
+                'reply_count': Reply.objects.filter(thread=thread, is_deleted=False).order_by('-created_at').count()
                 } for thread in Thread.objects.filter(board_id=board_id, is_deleted=False).order_by('-updated_at')]
         }
 
@@ -43,8 +43,7 @@ def create_thread(request, board_id):
 
     context = {
         'view': 'main/create-thread.html', 
-        'board_id': board_id, 
-        'board_name': board.name,
+        'board': board
     }
 
     if request.method == "GET":

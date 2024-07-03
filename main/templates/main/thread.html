@@ -1,17 +1,20 @@
+{% load custom_filter %}
+
 <main id="post">
-    <a id="back-to-threads" href="{% url 'main:threads' board.board_id %}">    
-        <- {{ board.name }} / {{ thread.title }}
-    </a>
+    <div class="current-location" href="{% url 'main:threads' board.board_id %}">    
+        <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / 
+        <a href="{% url 'main:threads' board.board_id %}">{{ board.name }}</a> / 
+    </div>
     <div id="main-thread">
-        <h1 id="thread-title">{{ thread.title }}</h1>
+        <div id="thread-details">
+            <h1 id="thread-title">{{ thread.title }}</h1>
+            <div id="thread-author-date">by {{thread.username.username}} <i class="bi bi-dot"></i> <span id="thread-date">{{ thread.created_at|timesince_short }} ago</span></div>
+        </div>
         <div id="thread-body">{{ thread.body }}</div>
     </div>
-    <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="input-reply">
+    <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="new-reply">
         {% csrf_token %}
-        <textarea name="body" id="new-reply" placeholder="What's on your mind?" > </textarea>
-        {% for error in form.body.errors %}
-            <div class="error">{{ error }}</div>
-        {% endfor %}
+        <textarea name="body" id="input-reply" placeholder="What's on your mind?"> </textarea>
         <button id="submit-reply" type="submit">Comment</button>
     </form>
     <div id="replies">

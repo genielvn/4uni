@@ -4,19 +4,41 @@
     padding: 25px;
 }
 
+#threads-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#board-name {
+}
+
+#board-description {
+    font-style: italic;
+}
+
+#create-thread-button {
+    background-color: #2a3236;
+    padding: 10px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+#threads {
+    padding: 10px 0;
+}
+
 .thread {
-    background-color: #f180b3;
+    background-color: #86194c;
     margin: 4px 0;
     padding: 15px;
-    border-radius: 13px;
     display: flex;
     flex-direction: column;
 }
 
 .thread-name > a {
     font-size: 1.1em;
-    color: #070406;
-    font-weight: 600;
+    font-weight: 500;
     text-decoration: none;
 }
 
@@ -24,9 +46,9 @@
     text-decoration: underline;
 }
 
-#threads-header {
-    display: flex;
-    justify-content: space-between;
+.thread-details {
+    color: #f180b3;
+    font-style: italic;
 }
 
 .details {
@@ -39,7 +61,6 @@
 }
 
 .details div {
-    color: #070406;
 }
 
 .details-left {

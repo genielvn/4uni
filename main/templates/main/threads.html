@@ -1,35 +1,49 @@
+{% load custom_filter %}
+
 <main id="main-threads">
-    <a class="back-to-boards" href="{% url 'main:boards' %}">
-        <- {{ board.name }}
-    </a>
-    <div id="threads-header">
-        <h1>Threads</h1>
-        <button id="create-thread" onclick="window.location=`/{{ board.board_id }}/create`" >Create Thread</button>
+    <div class="current-location" href="">
+        <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / 
+        {% comment %} <a href="{% url 'main:threads' board.board_id %}">{{ board.name }}</a> {% endcomment %}
     </div>
-    {% for thread in threads %}
-    <div class="thread">
-        <div class="details">
-            <div class="details-left">
-                <div class="thread-name">
-                    <a href="/{{board.board_id}}/{{thread.info.id}}">
-                        {{ thread.info.title }} 
-                    </a>
+    <div id="threads-header">
+        <div class="board-details">
+            <h1 id="board-name">{{ board.name }}</h1>
+            <p id="board-description">{{ board.description }}</h1>
+        </div>
+        <a id="create-thread-button" href="{% url 'main:create_thread' board.board_id%}" ><i class="bi bi-plus-circle"></i> Create Thread</a>
+    </div>
+    <div id="threads">
+
+        {% for thread in threads %} 
+        <div class="thread">
+            <div class="details">
+                <div class="details-left">
+                    <h2 class="thread-name">
+                        <a href="/{{board.board_id}}/{{thread.info.id}}">
+                            {{ thread.info.title }} 
+                        </a>
+                    </h2>
+                    <div class="thread-details">
+                        by {{ thread.info.username }} <i class="bi bi-dot"></i> <i class="bi bi-chat-fill"></i> {{thread.reply_count}} 
+                        {% if thread.reply_count == 1 %} comment 
+                        {% else %} comments
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="thread-author">
-		    by {{ thread.info.username }}
+                <div class="details-right">
+                    <div class="time">
+                        {{ thread.info.updated_at|timesince_short}} ago
+                    </div>
+                    <div class="last-reply">
+                        {% if thread.reply %}
+                            last reply by {{ thread.reply.username }}
+                        {% else %}
+                            started by {{ thread.info.username }}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-            <div class="details-right">
-                <div class="time">
-                    {{ thread.info.updated_at|timesince}} ago
-                </div>
-		{% if thread.reply %}
-                <div class="last-reply">
-		    last replied by {{ thread.reply.username }}
-                </div>
-		{% endif %}
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </main>

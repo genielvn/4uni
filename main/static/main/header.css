@@ -9,10 +9,12 @@ header {
 }
 
 #search-bar {
-    color: #f0eeef;
+    background-color: #2a3236;
+    border: 0px;
     max-width: 360px;
     min-width: 200px;
     width: 100%;
     height: 40px;
     margin: 0 10px;
+    box-sizing: content-box;
 }
