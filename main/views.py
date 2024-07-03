@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import (
     ListView
 )
-
+from django.utils import timezone
 from .forms import ThreadForm, CommentForm
 from main.models import Board, Thread, User, Reply
 
@@ -65,7 +65,7 @@ def threads(request, board_id):
             'view': 'main/threads.html',
             'board_id': board_id,
             'board': get_object_or_404(Board, board_id=board_id),
-            'threads': Thread.objects.filter(board_id=board_id)
+            'threads': Thread.objects.filter(board_id=board_id).order_by('-updated_at')
         }
 
         return render(request, "base.html", context)
@@ -119,5 +119,8 @@ def post(request, board_id, thread_id):
             # TODO: This is temporary for users
             reply.username = User.objects.filter(username="Anonymous")[0]
             reply.save()
+
+            thread.updated_at = timezone.now()
+            thread.save()
 
             return redirect('main:post', board_id=board_id, thread_id=thread_id)
