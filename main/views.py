@@ -6,7 +6,7 @@ from django.views.generic import (
 )
 from django.utils import timezone
 from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm
-from main.models import Board, Thread, User, Reply
+from main.models import Board, Thread, User, Reply, Role
 from django.db.models import Subquery, OuterRef, Value
 from django.db.models.functions import Coalesce
 
@@ -98,10 +98,8 @@ def login(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
         if form.is_valid():
-            print(f'form is valid')
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            print(f'{username=} {password=}')
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
@@ -109,10 +107,7 @@ def login(request):
                 print('Logged in')
                 return redirect('/')
             else:
-                print('Invalid username or password')
                 form.add_error(None, 'Invalid username or password')
-        else:
-            print(f'form is invalid! {form.errors=}')
 
     else:
         form = LoginForm()
@@ -123,9 +118,16 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            password = form.cleaned_data.get('password')
+            user.set_password(password)
+            user.role = Role.objects.get(name='User')
+            user.save()
+
             auth_login(request, user)
             return redirect('/')
+        else:
+            print('form is invalid')
 
     else:
         form = SignupForm()
