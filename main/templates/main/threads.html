@@ -4,30 +4,30 @@
     </a>
     <div id="threads-header">
         <h1>Threads</h1>
-        <button id="create-thread" onclick="window.location=`/{{ board_id }}/create`" >Create Thread</button>
+        <button id="create-thread" onclick="window.location=`/{{ board.board_id }}/create`" >Create Thread</button>
     </div>
     {% for thread in threads %}
     <div class="thread">
         <div class="details">
             <div class="details-left">
                 <div class="thread-name">
-                    <a href="/{{board_id}}/{{thread.id}}">
-                        {{ thread.title }} 
+                    <a href="/{{board.board_id}}/{{thread.info.id}}">
+                        {{ thread.info.title }} 
                     </a>
                 </div>
                 <div class="thread-author">
-                    by Anonymous
+		    by {{ thread.info.username }}
                 </div>
             </div>
             <div class="details-right">
-                <div class="last-time">
-                    {{ thread.updated_at|timesince}} ago
+                <div class="time">
+                    {{ thread.info.updated_at|timesince}} ago
                 </div>
-                {% if thread.last_reply_username %}
-                    <div class="last-reply">
-                        last replied by {{thread.last_reply_username}}
-                    </div>
-                {% endif %}
+		{% if thread.reply %}
+                <div class="last-reply">
+		    last replied by {{ thread.reply.username }}
+                </div>
+		{% endif %}
             </div>
         </div>
     </div>

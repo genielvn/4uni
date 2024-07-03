@@ -10,8 +10,8 @@ class Role(models.Model):
         return self.name
 
 class University(models.Model):
-    university_id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=100)
+    university_id = models.CharField(max_length=10, primary_key=True)
     verified = models.BooleanField(default=False)
 
     class Meta:

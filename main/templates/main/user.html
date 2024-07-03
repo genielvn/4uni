@@ -1,0 +1,16 @@
+<main id="user">
+    <h1>{{ user.username }}</h1>
+    <h2>Threads</h2>
+    {% for thread in threads %}
+    <div class="board">
+	<div class="board-name">
+	    <a href="/{{board.board_id}}">{{ board.board_id }}: {{ board.name }}</a>
+        </div>
+        <div class="board-description">
+            {{ board.description }}
+        </div>
+    </div>
+    {% empty %}
+    <p>User hasn't made threads yet!.</p>
+    {% endfor %}
+</main>
