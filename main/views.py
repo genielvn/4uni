@@ -7,6 +7,8 @@ from django.views.generic import (
 from django.utils import timezone
 from .forms import ThreadForm, CommentForm
 from main.models import Board, Thread, User, Reply
+from django.db.models import Subquery, OuterRef, Value
+from django.db.models.functions import Coalesce
 
 board = [
     {
@@ -60,12 +62,15 @@ def boards(request):
 def threads(request, board_id):
     # pagination = request.GET.get('page')
     # if board_id not in Board.objects.values_list('id', flat=True):
+    last_reply_subquery = Reply.objects.filter(thread=OuterRef('pk')).order_by('-created_at')
     if request.method == 'GET':
         context = {
             'view': 'main/threads.html',
             'board_id': board_id,
             'board': get_object_or_404(Board, board_id=board_id),
-            'threads': Thread.objects.filter(board_id=board_id).order_by('-updated_at')
+            'threads': Thread.objects.filter(board_id=board_id).annotate(
+                last_reply_username=Coalesce(Subquery(last_reply_subquery.values('username')[:1]), Value(None)),
+        ).order_by('-updated_at')
         }
 
         return render(request, "base.html", context)

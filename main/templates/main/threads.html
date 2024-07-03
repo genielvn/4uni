@@ -1,5 +1,5 @@
-<main id="threads">
-    <a class="back-to-boards" href="/">
+<main id="main-threads">
+    <a class="back-to-boards" href="{% url 'main:boards' %}">
         <- {{ board.name }}
     </a>
     <div id="threads-header">
@@ -20,11 +20,14 @@
                 </div>
             </div>
             <div class="details-right">
+                <div class="last-time">
                     {{ thread.updated_at|timesince}} ago
                 </div>
-                <div class="last-reply">
-                    last replied by lezzthanthree
-                </div>
+                {% if thread.last_reply_username %}
+                    <div class="last-reply">
+                        last replied by {{thread.last_reply_username}}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
