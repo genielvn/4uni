@@ -54,7 +54,7 @@ class Thread(models.Model):
     title = models.CharField(max_length=50)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     username = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField(null=True, blank=True)
+    body = models.TextField(null=False, blank=False)
     img = models.CharField(max_length=255, null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -71,7 +71,7 @@ class Thread(models.Model):
 class Reply(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
-    body = models.TextField(blank=True)
+    body = models.TextField(null=False, blank=False)
     img = models.CharField(max_length=255, null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
