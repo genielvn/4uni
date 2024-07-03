@@ -94,32 +94,31 @@ def thread(request, board_id, thread_id):
 
             return redirect('main:thread', board_id=board_id, thread_id=thread_id)  
 
-def post(request, board_id, thread_id):
-    board = get_object_or_404(Board, board_id=board_id)
-    thread = get_object_or_404(Thread, id=thread_id, board_id=board_id)
-    replies = Reply.objects.filter(thread=thread)
-
-    if request.method == "GET":
-        context = {
-            'view': 'main/post.html', 
-            'board_id': board_id, 
-            'board_name': board.name, 
-            'thread_topic': thread,
-            'replies': replies
-        }
-        return render(request, "base.html", context)
-    
-    elif request.method == "POST":
-        form = CommentForm(request.POST)
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
         if form.is_valid():
-            reply = form.save(commit=False)
-            reply.thread = thread
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            if user is not None:
+                auth_login(request, user)
+                return redirect('/')
+            else:
+                form.add_error(None, 'Invalid username or password')
 
-            # TODO: This is temporary for users
-            reply.username = User.objects.filter(username="Anonymous")[0]
-            reply.save()
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('/')
 
-            thread.updated_at = timezone.now()
-            thread.save()
+    else:
+        form = SignupForm()
 
-            return redirect('main:post', board_id=board_id, thread_id=thread_id)
+    return render(request, 'base.html', {'view': 'main/signup.html', 'form': form})
+
+def logout(request):
+    auth_logout(request)
+    return redirect('/')
