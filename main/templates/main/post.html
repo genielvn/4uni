@@ -1,6 +1,6 @@
 <main id="post">
-    <a id="back-to-threads" href="/{{board_id}}">    
-        <- {{ board_name }} / <span id="thread-title-back"> {{ thread_topic.title }}</span>
+    <a id="back-to-threads" href="{% url 'main:threads' board_id %}">    
+        <- {{ board_name }} / {{ thread_topic.title }}
     </a>
     <div id="main-thread">
         <h1 id="thread-title">{{ thread_topic.title }}</h1>
@@ -9,14 +9,24 @@
     <form action="{% url 'main:post' board_id thread_topic.id %}" method="POST" id="input-reply">
         {% csrf_token %}
         <textarea name="body" id="new-reply" placeholder="What's on your mind?" > </textarea>
+        {% for error in form.body.errors %}
+            <div class="error">{{ error }}</div>
+        {% endfor %}
         <button id="submit-reply" type="submit">Comment</button>
     </form>
     <div id="replies">
-        {% for reply in replies %}
+        {% if replies %}
+            {% for reply in replies %}
+            <div class="reply">
+                <div class="reply-name">{{ reply.username.username }}</div>
+                <div class="reply-content">{{ reply.body }}</div>
+            </div>
+            {% endfor %}   
+        {% else %}
         <div class="reply">
-            <div class="reply-name">{{ reply.username.username }}</div>
-            <div class="reply-content">{{ reply.body }}</div>
+            No replies yet!
         </div>
-        {% endfor %}
+        {% endif %} 
+        
     </div>
 </main>
