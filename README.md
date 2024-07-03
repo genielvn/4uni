@@ -4,7 +4,7 @@ generate a new key
 ```
 django-admin shell
 from django.core.management.utils import get_random_secret_key  
-get_random_secret_key()
+get_random_secret_key() # dont include single quotes at the start and end
 ```
 
 create .env file inside fouruni folder and type the following
@@ -30,7 +30,7 @@ if things doesnt work still, delete the fucking db. (this took me like 20 minute
 
 if you see a conflict between user and admin shit, or something like that, comment 'django.contrib.admin' on setting.py and the admin url on fouruni/urls.py. idk why, but i am getting fucking errors.
 
-# Testing the database
+## Testing the database
 ```
 py manage.py shell
 from main.models import Board, Thread, User, Role, University, Reply
