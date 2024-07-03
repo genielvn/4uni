@@ -23,7 +23,7 @@ to drop all tables and reset it to initial state, delete all files in the migrat
 py manage.py sqlflush
 py manage.py flush
 py manage.py makemigrations
-py manage.py sqlmigrate
+py manage.py sqlmigrate main xxxx # xxxx = the migration number
 py manage.py migrate
 ```
 if things doesnt work still, delete the fucking db. (this took me like 20 minutes to figure it out)
