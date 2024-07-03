@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.views.generic import (
     ListView
 )
-
-from .forms import ThreadForm, LoginForm, SignupForm
+from django.utils import timezone
+from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm
 from main.models import Board, Thread, User, Reply
 from django.db.models import Subquery, OuterRef, Value
 from django.db.models.functions import Coalesce
@@ -33,7 +33,7 @@ def threads(request, board_id):
             'threads': [{
                 'info': thread,
                 'reply': Reply.objects.filter(thread=thread, is_deleted=False).order_by('-created_at').first()
-                } for thread in Thread.objects.filter(board_id=board_id, is_deleted=False).order_by('-created_at')]
+                } for thread in Thread.objects.filter(board_id=board_id, is_deleted=False).order_by('-updated_at')]
         }
 
         return render(request, "base.html", context)
@@ -56,11 +56,11 @@ def create_thread(request, board_id):
             thread.board = board
 
             # TODO: This is temporary for users
-            thread.username = User.objects.filter(username="Anonymous")[0]
+            thread.username = User.objects.get(username="Anonymous")
             thread.save()
 
             # TODO: Redirect to the thread itself
-            return redirect('main:post', board_id=board_id, thread_id=thread.id)
+            return redirect('main:thread', board_id=board_id, thread_id=thread.id)
         
 def thread(request, board_id, thread_id):
     board = get_object_or_404(Board, board_id=board_id)
@@ -75,9 +75,25 @@ def thread(request, board_id, thread_id):
             }
 
         return render(request, 'base.html', context)
+        
     
     elif request.method == 'POST':
         form = ReplyForm(request.POST)
+        
+        # TODO: This is temporary for users
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.thread = thread
+
+            # TODO: This is a temporary user
+            reply.username = User.objects.get(username="Anonymous")
+            reply.save()
+
+            thread.updated_at = timezone.now()
+            thread.save()
+
+            return redirect('main:thread', board_id=board_id, thread_id=thread_id)  
+
 def post(request, board_id, thread_id):
     board = get_object_or_404(Board, board_id=board_id)
     thread = get_object_or_404(Thread, id=thread_id, board_id=board_id)
@@ -102,7 +118,6 @@ def post(request, board_id, thread_id):
             reply.username = request.user
             reply.save()
 
-            return redirect('main:thread', board_id=board_id, thread_id=thread_id)
 
 def username(request, username):
     if request.method == 'GET':
@@ -145,10 +160,4 @@ def signup(request):
 def logout(request):
     auth_logout(request)
     return redirect('/')
-            # TODO: This is temporary for users
-            reply.username = User.objects.filter(username="Anonymous")[0]
-            reply.save()
-
-            thread.updated_at = timezone.now()
-            thread.save()
-
+            
