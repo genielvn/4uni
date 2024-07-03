@@ -25,6 +25,7 @@ class Board(models.Model):
     board_id = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=50)
     description = models.CharField(default="A board.", max_length=100, blank=True) # Can be a motto of the university or a simple description of the board.
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # TODO: Add sorting using class Meta
 

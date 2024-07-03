@@ -2,13 +2,13 @@
 
 <header>
     <div id="nav-home">
-        <a href="/">
+        <a href="{% url "main:boards" %}">
             <img id="header-logo" src="{% static "img/logo_103.png" %}" alt="4uni logo">
         </a>
     </div>
     
     <div id="nav-right">
-        <input type="text" name="search-bar" id="search-bar" placeholder="Search...">
+        <input type="text" name="search" id="search-bar" placeholder="Search...">
         <button id="log-in" class="account-controls">Join the fun</button>
     </div>
 </header>

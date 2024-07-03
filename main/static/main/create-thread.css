@@ -1,9 +1,39 @@
 #create-thread-body {
     display: flex;
     flex-direction: column;
+    padding: 25px;
 }
 
 #new-thread-form {
     display: flex;
     flex-direction: column;
+    padding: 20px 0px;
+    width: 80%;
+    align-items: flex-end;
+}
+
+.thread-input {
+    width: 100%;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.thread-input label {
+    padding: 5px 15px;
+}
+
+#new-thread-title {
+    border-color: #5b5b5b;
+    height: 40px;
+    font-size: inherit;
+}
+
+#new-thread-body {
+    border-color: #5b5b5b;
+    height: 100px;
+}
+
+#new-thread-submit {
+    width: 80px;
 }

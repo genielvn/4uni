@@ -1,16 +1,21 @@
 <main id="create-thread-body">
-    <a class="back-to-boards" href="/{{ board_id }}">
-         <- {{ board_name }} / Create Thread
-    </a>
-    <h1>Create Threads</h1>
+    <div class="current-location" href="/{{ board_id }}">
+        <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / 
+        <a href="{% url 'main:threads' board.board_id %}">{{ board.name }}</a> / 
+    </div>
+    <h1>Create Thread</h1>
 
-    <form id="new-thread-form" action="{% url 'main:create_thread' board_id %}" method="POST">
+    <form id="new-thread-form" action="{% url 'main:create_thread' board.board_id %}" method="POST">
         {% csrf_token %}
-        <label for="new-thread-title">Title</label>
-        <input id="new-thread-title" type="text" name="title">
+        <div class="thread-input">
+            <label for="new-thread-title">Title</label>
+            <input name="title" id="new-thread-title" type="text">
+        </div>
+        <div class="thread-input">
+            <label for="new-thread-body">Thread Body</label>
+            <textarea name="body"id="new-thread-body"></textarea>
+        </div>
 
-        <label for="new-thread-body">Thread Body</label>
-        <textarea name="body" id="new-thread-body"></textarea>
-        <button type="submit" id="new-thread-submit">Submit</button>
+        <button type="submit" id="new-thread-submit">Post</button>
     </form>
 </main>
