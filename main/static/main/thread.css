@@ -42,14 +42,18 @@
 }
 
 .reply {
-    padding: 15px;
-    border: 2px #f180b3 solid;
-    margin: 10px 0px;
-    border-radius: 20px;
+    border-top: #5b5b5b 1px solid;
+    padding: 15px 0;
 }
 
-.reply-name {
+.reply-details {
     font-weight: 600;
+}
+
+.reply-date {
+    font-weight: normal;
+    font-style: italic;
+    color: #5b5b5b;
 }
 
 .board-recent-thread {

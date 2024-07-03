@@ -16,7 +16,7 @@ def boards(request):
         context = {
             'view': 'main/boards.html',
             'boards': [{'info': board,
-                        'thread': Thread.objects.filter(board=board).order_by('-created_at').first()}
+                        'thread': Thread.objects.filter(board=board).order_by('-updated_at').first()}
                        for board in Board.objects.all()]
         }
         return render(request, "base.html", context)
@@ -70,7 +70,7 @@ def thread(request, board_id, thread_id):
             'view': 'main/thread.html',
             'board': board,
             'thread': thread,
-            'replies': Reply.objects.filter(thread_id=thread_id).order_by('-created_at')
+            'replies': Reply.objects.filter(thread_id=thread_id).order_by('created_at')
             }
 
         return render(request, 'base.html', context)

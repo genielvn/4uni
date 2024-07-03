@@ -28,3 +28,15 @@
     overflow: hidden;
     font-style: italic;
 }
+
+.board-latest-thread-description > a {
+    text-decoration: none;
+}
+
+.board-latest-thread-description > a:hover {
+    text-decoration: underline;
+}
+
+.board-latest-thread-time-author {
+    font-size: 0.8em;
+}

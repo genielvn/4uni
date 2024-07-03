@@ -1,3 +1,5 @@
+{% load custom_filter %}
+
 <main id="main-boards">
     {% for board in boards %}
     <div class="board">
@@ -8,13 +10,25 @@
             {{ board.info.description }}
         </div>
         <div class="board-recent-thread">
-            <h3>Recent Thread</h3>
-            <div class="board-latest-thread-description">
-                Is pulling my cock worth my time?
-            </div>
-            <div class="board-latest-thread-time-author">
-                <span>25 minutes ago</span> by <span>Anonymous
-            </div>
+            {% if board.thread %}
+                <h3>Recent Thread</h3>
+                <div class="board-latest-thread-description">
+                    <a href="{% url 'main:thread' board.info.board_id board.thread.id %}">
+                        {{ board.thread.title }}
+                    </a>
+                </div>
+                <div class="board-latest-thread-time-author">
+                    by {{ board.thread.username }} <i class="bi bi-dot"></i> {{ board.thread.updated_at|timesince_short }} ago
+                </div>
+            {% else %}
+                <h3>A New Board!</h3>
+                <div class="board-latest-thread-description">
+                    Be the first to create a thread!
+                </div>
+                <div class="board-latest-thread-time-author">
+                    board created {{ board.info.created_at|timesince_short }} ago
+                </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

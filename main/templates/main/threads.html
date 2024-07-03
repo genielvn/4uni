@@ -25,8 +25,8 @@
                     </h2>
                     <div class="thread-details">
                         by {{ thread.info.username }} <i class="bi bi-dot"></i> <i class="bi bi-chat-fill"></i> {{thread.reply_count}} 
-                        {% if thread.reply_count == 1 %} comment 
-                        {% else %} comments
+                        {% if thread.reply_count == 1 %} reply
+                        {% else %} replies
                         {% endif %}
                     </div>
                 </div>
