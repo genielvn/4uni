@@ -62,6 +62,7 @@ def boards(request):
 def threads(request, board_id):
     # pagination = request.GET.get('page')
     # if board_id not in Board.objects.values_list('id', flat=True):
+
     last_reply_subquery = Reply.objects.filter(thread=OuterRef('pk')).order_by('-created_at')
     if request.method == 'GET':
         context = {
@@ -81,7 +82,7 @@ def create_thread(request, board_id):
     context = {
         'view': 'main/create-thread.html', 
         'board_id': board_id, 
-        'board_name': board.name
+        'board_name': board.name,
     }
 
     if request.method == "GET":

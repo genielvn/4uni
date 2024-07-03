@@ -1,4 +1,4 @@
-#boards {
+#main-boards {
     display: flex;
     flex-direction: column;
 }
@@ -21,6 +21,14 @@
 
 .board-name > a:hover {
     text-decoration: underline;
+}
+
+.board-description {
+    color: #070406;
+    font-style: italic;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .recent {
@@ -57,14 +65,6 @@
 }
 
 .recent-content {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.board-description {
-    color: #070406;
-    font-style: italic;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
