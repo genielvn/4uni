@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.http import HttpResponse
 from django.views.generic import (
     ListView
@@ -95,15 +96,23 @@ def thread(request, board_id, thread_id):
 
 def login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = LoginForm(request, data=request.POST)
         if form.is_valid():
+            print(f'form is valid')
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            print(f'{username=} {password=}')
+            user = authenticate(request, username=username, password=password)
+
             if user is not None:
                 auth_login(request, user)
+                print('Logged in')
                 return redirect('/')
             else:
+                print('Invalid username or password')
                 form.add_error(None, 'Invalid username or password')
+        else:
+            print(f'form is invalid! {form.errors=}')
 
     else:
         form = LoginForm()
