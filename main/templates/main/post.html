@@ -8,13 +8,13 @@
     </div>
     <form action="{% url 'main:post' board_id thread_topic.id %}" method="POST" id="input-reply">
         {% csrf_token %}
-        <textarea id="new-reply" placeholder="What's on your mind?" > </textarea>
-        <button name="body" id="submit-reply" type="submit">Comment</button>
+        <textarea name="body" id="new-reply" placeholder="What's on your mind?" > </textarea>
+        <button id="submit-reply" type="submit">Comment</button>
     </form>
     <div id="replies">
         {% for reply in replies %}
         <div class="reply">
-            <div class="reply-name">{{ reply.username.username}}</div>
+            <div class="reply-name">{{ reply.username.username }}</div>
             <div class="reply-content">{{ reply.body }}</div>
         </div>
         {% endfor %}

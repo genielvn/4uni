@@ -11,7 +11,10 @@
 }
 
 #input-reply {
+    display: flex;
+    flex-direction: row;
     height: 150px;
+    align-items: flex-end;
 }
 
 #new-reply {
@@ -21,9 +24,18 @@
     min-width: 500px;
 }
 
+#submit-reply {
+    padding: 0 10px;
+    margin: 0 10px;
+}
+
 .reply {
     padding: 15px;
     border: 2px #f180b3 solid;
     margin: 10px 0px;
     border-radius: 20px;
+}
+
+.reply-name {
+    font-weight: 600;
 }
