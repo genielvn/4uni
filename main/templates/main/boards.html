@@ -1,12 +1,17 @@
 <main id="main-boards">
-    <h1>Boards</h1>
     {% for board in boards %}
     <div class="board">
-        <div class="board-name">
-            <a href="/{{board.info.board_id}}">{{ board.info.board_id }}: {{ board.info.name }}</a>
-        </div>
+        <h2 class="board-name">
+            <a href="/{{board.info.board_id}}">{{ board.info.name }}</a>
+        </h2>
         <div class="board-description">
             {{ board.info.description }}
+        </div>
+        <div class="board-recent-thread">
+            <h4>Recent Thread</h4>
+            <div class="board-latest-thread-title">
+                Test
+            </div>
         </div>
     </div>
     {% endfor %}

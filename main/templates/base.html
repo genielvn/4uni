@@ -9,6 +9,7 @@
    {% bootstrap_css %}
    {% bootstrap_javascript %} {% endcomment %}
    <link rel="stylesheet" type="text/css" href="{% static 'main/main.css' %}">   
+   <link rel="stylesheet" type="text/css" href="{% static 'main/header.css' %}">   
    <link rel="stylesheet" type="text/css" href="{% static 'main/boards.css' %}">   
    <link rel="stylesheet" type="text/css" href="{% static 'main/threads.css' %}">   
    <link rel="stylesheet" type="text/css" href="{% static 'main/thread.css' %}">   
@@ -22,7 +23,6 @@
       <div id="content">
          {% include 'main/left-sidebar.html' %}
          {% include view %}
-
       </div>
       {% comment %} {% include "main/footer.html" %} {% endcomment %}
    </div>

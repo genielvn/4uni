@@ -4,17 +4,15 @@
 }
 
 .board {
-    background-color: #f180b3;
     margin: 4px 0;
     padding: 15px;
-    border-radius: 13px;
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid #f180b3;
 }
 
 .board-name > a {
-    font-size: 1.35em;
-    color: #070406;
+    /* font-size: 1.35em; */
     font-weight: 800;
     text-decoration: none;
 }
@@ -24,11 +22,11 @@
 }
 
 .board-description {
-    color: #070406;
     font-style: italic;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    font-style: italic;
 }
 
 .recent {
