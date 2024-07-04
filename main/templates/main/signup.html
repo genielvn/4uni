@@ -1,0 +1,48 @@
+{% load static %}
+
+<div id="login-content">
+    <div id="account-header">
+        <div id="greetings">Welcome to 4uni!</div>
+        <div id="instructions">The safe haven of students.</div>
+    </div>
+
+	<form method="post">
+		{% csrf_token %}
+		<div class="account-input">
+            <i class="bi bi-person account-icon"></i>
+            <input type="text" name="username" id="username-input" placeholder="Username">
+            {% for error in form.username.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+		<div class="account-input">
+            <i class="bi bi-lock account-icon"></i>
+            <input type="password" name="password1" id="password-input" placeholder="Password">
+            {% for error in form.password1.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+		<div class="account-input">
+            <i class="bi bi-check-circle-fill"></i>
+            <input type="password" name="password2" id="password-input" placeholder="Confirm Password">
+            {% for error in form.password2.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+		<div class="account-input">
+			<i class="bi bi-building"></i>
+            <select name="university" id="university-input">
+				{% for uni in form.university %}
+						{{uni}}
+				{% endfor %}
+			</select>
+            {% for error in form.password.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+		<button id="account-submit" type="submit">Sign Up</button>
+	</form>
+	<div id="change">
+        Already have an account? <a href="{% url 'main:login' %}">Log In</a> to stay tuned to latest threads!
+    </div>
+</div>

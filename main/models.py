@@ -55,7 +55,7 @@ class Thread(models.Model):
     title = models.CharField(max_length=50)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     username = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField(null=False, blank=False)
+    body = models.TextField(null=True, blank=True)
     img = models.CharField(max_length=255, null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

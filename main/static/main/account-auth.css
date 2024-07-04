@@ -44,7 +44,8 @@
 }
 
 #username-input,
-#password-input {
+#password-input,
+#university-input {
     background-color: #f0eeef;
     color: #151415;
     border: none;
@@ -52,6 +53,7 @@
     width: 100%;
     padding: 0 70px;
     box-sizing: border-box;
+    border-radius: 20px;
 }
 
 #account-submit {

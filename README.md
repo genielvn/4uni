@@ -38,7 +38,7 @@ from main.models import Board, Thread, User, Role, University, Reply
 sample_board = Board.objects.create(board_id="pup", name="Polytecnic Universitiy of The Philippines")
 sample_role = Role.objects.create(name="User")
 sample_uni = University.objects.create(
-    university_id = "pup",
+    university_id = "up",
     name = "Polytecnic Universitiy of The Philippines",
     verified = True
 )

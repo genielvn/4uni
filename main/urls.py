@@ -8,6 +8,7 @@ urlpatterns = [
     path("<str:board_id>/<int:thread_id>/", views.thread, name='thread'),
     path("user/login/", views.login, name='login'),
     path("user/signup/", views.signup, name='signup'),
+    path("user/logout/", views.logout, name='logout'),
     path("user/<str:username>/", views.username, name='user'),
     # path("user/settings/", views.user_settings, name='user_settings'),
 ]
