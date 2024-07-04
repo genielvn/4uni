@@ -1,0 +1,9 @@
+<main id="create-thread-body">
+    <div class="current-location" href="/{{ board_id }}">
+        <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / 
+        <a href="{% url 'main:threads' board.board_id %}">{{ board.name }}</a> / 
+    </div>
+    <h1>Create Thread</h1>
+    <h2>Banned</h2>
+    <p>You are banned from creating threads.</p>
+</main>

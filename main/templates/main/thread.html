@@ -14,7 +14,7 @@
     </div>
     <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="new-reply">
         {% csrf_token %}
-        <textarea name="body" id="input-reply" placeholder="What's on your mind?"> </textarea>
+        <textarea name="body" id="input-reply" placeholder="Reply to this thread"> </textarea>
         {% for error in form.body.errors %}
             <div class="error">{{ error }}</div>
         {% endfor %}

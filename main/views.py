@@ -1,19 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.http import HttpResponse
-from django.views.generic import (
-    ListView
-)
 from django.utils import timezone
 from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm
 from main.models import Board, Thread, User, Reply, Role
-from django.db.models import Subquery, OuterRef, Value
-from django.db.models.functions import Coalesce
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url="main:login")
 def boards(request):
-    if not request.user.is_authenticated:
-        return redirect('/user/login')
-
     pagination = request.GET.get('page')
 
     if request.method == 'GET':
@@ -25,6 +18,7 @@ def boards(request):
         }
         return render(request, "base.html", context)
 
+@login_required(login_url="main:login")
 def threads(request, board_id):
     if request.method == 'GET':
         context = {
@@ -39,17 +33,19 @@ def threads(request, board_id):
 
         return render(request, "base.html", context)
 
+@login_required(login_url="main:login")
 def create_thread(request, board_id):
     board = get_object_or_404(Board, board_id=board_id)
 
     if request.method == "POST":
+        if request.user.is_banned:
+            return 
         form = ThreadForm(request.POST)
         if form.is_valid():
             thread = form.save(commit=False)
             thread.board = board
 
-            # TODO: This is temporary for users
-            thread.username = User.objects.get(username="Anonymous")
+            thread.username = request.user
             thread.save()
 
             # TODO: Redirect to the thread itself
@@ -60,12 +56,14 @@ def create_thread(request, board_id):
         form = ThreadForm()
 
     context = {
-        'view': 'main/create-thread.html', 
+        'view': 'main/create-thread.html' if not request.user.is_banned else 'main/banned_tocreate.html', 
         'board': board,
         'form': form
     }
+    print(request.user)
     return render(request, "base.html", context)
 
+@login_required(login_url="main:login")
 def thread(request, board_id, thread_id):
     board = get_object_or_404(Board, board_id=board_id)
     thread = get_object_or_404(Thread, board=board, id=thread_id, is_deleted=False)
@@ -77,8 +75,7 @@ def thread(request, board_id, thread_id):
             reply = form.save(commit=False)
             reply.thread = thread
 
-            # TODO: This is a temporary user
-            reply.username = User.objects.get(username="Anonymous")
+            reply.username = request.user
             reply.save()
 
             thread.updated_at = timezone.now()

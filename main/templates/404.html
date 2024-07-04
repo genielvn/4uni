@@ -6,12 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'main/main.css' %}">
-    <link rel="stylesheet" href="{% static 'main/404.css' %}">
+    <link rel="stylesheet" href="{% static 'main/http-error.css' %}">
     <title>4uni</title>
 </head>
 <body>
-    <div id="main-content">
-      {% include "main/header.html" %}
+  <div id="main-content">
+    {% include "main/header.html" %}
+    <div id="content">
+        {% include 'main/left-sidebar.html' %}
         <main id="page-not-found">
             <img src="https://cdn.donmai.us/original/b1/3a/__reiuji_utsuho_touhou_drawn_by_guuchama__b13a096cc7a37a67afd54dd0037836d0.png" alt="" id="image-404">
             <div id="description-404">
@@ -19,7 +21,8 @@
                 <h4>Page not found! Did you type the link correctly?</h2>
             </div>
         </main>
-      {% include "main/footer.html" %}
+        {% include 'main/right-sidebar.html' %}
     </div>
+ </div>
 </body>
 </html>

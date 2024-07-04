@@ -5,9 +5,6 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   {% comment %} {% load bootstrap5 %}
-   {% bootstrap_css %}
-   {% bootstrap_javascript %} {% endcomment %}
    <link rel="stylesheet" type="text/css" href="{% static 'main/main.css' %}">   
    <link rel="stylesheet" type="text/css" href="{% static 'main/header.css' %}">   
    <link rel="stylesheet" type="text/css" href="{% static 'main/boards.css' %}">   
@@ -25,7 +22,6 @@
          {% include view %}
          {% include 'main/right-sidebar.html' %}
       </div>
-      {% comment %} {% include "main/footer.html" %} {% endcomment %}
    </div>
 </body>
 </html>
