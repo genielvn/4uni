@@ -1,0 +1,29 @@
+{% load static %}
+<div id="login-content">
+    <div id="account-header">
+        <div id="greetings">Welcome back!</div>
+        <div id="instructions">Log in to your account</div>
+    </div>
+    <form method="POST" action="{% url "main:login" %}">
+        {% csrf_token %}
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <div class="account-input">
+            <i class="bi bi-person account-icon"></i>
+            <input type="text" name="username" id="username-input" placeholder="Username">
+            {% for error in form.username.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="account-input">
+            <i class="bi bi-lock account-icon"></i>
+            <input type="password" name="password" id="password-input" placeholder="Password">
+            {% for error in form.password.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <button id="account-submit" type="submit">Log In</button>
+    </form>
+    <div id="change">
+        New to 4uni? Let's <a href="{% url 'main:signup' %}">sign up</a> so we can get started!
+    </div>
+</div>

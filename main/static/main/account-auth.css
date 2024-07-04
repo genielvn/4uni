@@ -1,0 +1,67 @@
+#account-auth {
+    height: 100vh;
+    width: 100%;
+}
+
+.half {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+}
+
+#login-content,
+#signup-content {
+    width: 75%;
+}
+
+#account-header {
+    padding: 10px 0;
+}
+
+#greetings {
+    color: #f31d81;
+    font-weight: 800;
+    font-size: 2em;
+}
+
+#instructions {
+    font-size: 1.5em;
+}
+
+.account-input {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.account-input i {
+    position: absolute;
+    color: #151415;
+    font-size: 24px;
+    padding-top: 16px;
+    padding-left: 30px;
+}
+
+#username-input,
+#password-input {
+    background-color: #f0eeef;
+    color: #151415;
+    border: none;
+    height: 60px;
+    width: 100%;
+    padding: 0 70px;
+    box-sizing: border-box;
+}
+
+#account-submit {
+    width: 100%;
+    background-color: #f31d81;
+    color: #f0eeef;
+    margin: 10px 0;
+}
+
+#change {
+    margin: 20px 0;
+    text-align: center;
+}

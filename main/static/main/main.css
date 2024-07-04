@@ -48,7 +48,8 @@ footer {
     align-items: center;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
     background-color: #ffffff00;
     border-radius: 20px;
     border: solid #ff52a2 2px;
@@ -87,4 +88,9 @@ textarea {
 
 .current-location > a:hover {
     text-decoration: underline;
+}
+
+.error {
+    color: #f31d24;
+    padding: 5px 15px;
 }

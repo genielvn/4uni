@@ -11,6 +11,9 @@ from django.db.models import Subquery, OuterRef, Value
 from django.db.models.functions import Coalesce
 
 def boards(request):
+    if not request.user.is_authenticated:
+        return redirect('/user/login')
+
     pagination = request.GET.get('page')
 
     if request.method == 'GET':
@@ -23,9 +26,6 @@ def boards(request):
         return render(request, "base.html", context)
 
 def threads(request, board_id):
-    # pagination = request.GET.get('page')
-    # if board_id not in Board.objects.values_list('id', flat=True):
-
     if request.method == 'GET':
         context = {
             'view': 'main/threads.html',
@@ -42,14 +42,7 @@ def threads(request, board_id):
 def create_thread(request, board_id):
     board = get_object_or_404(Board, board_id=board_id)
 
-    context = {
-        'view': 'main/create-thread.html', 
-        'board': board
-    }
-
-    if request.method == "GET":
-        return render(request, "base.html", context)
-    elif request.method == "POST":
+    if request.method == "POST":
         form = ThreadForm(request.POST)
         if form.is_valid():
             thread = form.save(commit=False)
@@ -61,26 +54,25 @@ def create_thread(request, board_id):
 
             # TODO: Redirect to the thread itself
             return redirect('main:thread', board_id=board_id, thread_id=thread.id)
-        
+        else:
+            form.add_error('title', "Please specify a title!")
+    else:
+        form = ThreadForm()
+
+    context = {
+        'view': 'main/create-thread.html', 
+        'board': board,
+        'form': form
+    }
+    return render(request, "base.html", context)
+
 def thread(request, board_id, thread_id):
     board = get_object_or_404(Board, board_id=board_id)
     thread = get_object_or_404(Thread, board=board, id=thread_id, is_deleted=False)
 
-    if request.method == 'GET':
-        context = {
-            'view': 'main/thread.html',
-            'board': board,
-            'thread': thread,
-            'replies': Reply.objects.filter(thread_id=thread_id).order_by('created_at')
-            }
-
-        return render(request, 'base.html', context)
-        
-    
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = ReplyForm(request.POST)
         
-        # TODO: This is temporary for users
         if form.is_valid():
             reply = form.save(commit=False)
             reply.thread = thread
@@ -93,6 +85,21 @@ def thread(request, board_id, thread_id):
             thread.save()
 
             return redirect('main:thread', board_id=board_id, thread_id=thread_id)  
+        else: 
+            form.add_error("body", "Hey, at least specify your reply :<")
+    else:
+        form = ReplyForm()
+
+        
+    context = {
+            'view': 'main/thread.html',
+            'board': board,
+            'thread': thread,
+            'replies': Reply.objects.filter(thread_id=thread_id).order_by('created_at'),
+            'form': form
+        }
+
+    return render(request, 'base.html', context)
 
 def login(request):
     if request.method == 'POST':
@@ -103,16 +110,17 @@ def login(request):
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
+                print("user auth")
                 auth_login(request, user)
-                print('Logged in')
                 return redirect('/')
             else:
+                print("user not auth")
                 form.add_error(None, 'Invalid username or password')
 
     else:
         form = LoginForm()
 
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'base_user.html', {'view':'main/login.html','form': form})
 
 def signup(request):
     if request.method == 'POST':
@@ -132,7 +140,7 @@ def signup(request):
     else:
         form = SignupForm()
 
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'base_user.html', {'view':'main/signup.html', 'form': form})
 
 def logout(request):
     auth_logout(request)

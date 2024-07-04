@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="{% static 'main/main.css' %}">   
+   <link rel="stylesheet" type="text/css" href="{% static 'main/account-auth.css' %}">   
+</head>
+<body>
+    <div id="main-content">
+        <main id="account-auth">
+            <div class="half">
+                <img src="{% static "img/logo_280.png" %}" alt="logo_big">
+            </div>
+            <div class="half">
+                {% include view %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>
