@@ -22,6 +22,9 @@
             {% endfor %}
         </div>
         <button id="account-submit" type="submit">Log In</button>
+        {% for error in form.non_field_errors %}
+            <div class="error">{{ error }}</div>
+        {% endfor %}
     </form>
     <div id="change">
         New to 4uni? Let's <a href="{% url 'main:signup' %}">sign up</a> so we can get started!

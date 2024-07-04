@@ -110,7 +110,6 @@ def login(request):
                 auth_login(request, user)
                 return redirect('/')
             else:
-                print("user not auth")
                 form.add_error(None, 'Invalid username or password')
 
     else:
@@ -168,26 +167,39 @@ def create_board(request):
 
             return redirect('main:threads', board_id=reply.board_id)  
         else: 
-            form.add_error("board_id", "Duplicate ID!")
+            pass
     else:
         form = BoardForm()
 
     context = {
         'view': 'main/create-board.html',
+        'form': form
     }
 
     return render(request, 'base.html', context)
-    
+
+@login_required(login_url="main:login")
 def ban_user(request, username):
     if not request.user.role.name == "Moderator":
         raise Http404
     
-    user_to_ban = get_object_or_404(User, username=username)
-    user_to_ban.is_banned = not user_to_ban.is_banned
-    user_to_ban.save()
+    user = get_object_or_404(User, username=username)
+    user.is_banned = not user.is_banned
+    user.save()
 
     return redirect('main:user', username=username)
 
+@login_required(login_url="main:login")
+def delete_user(request, username):
+    if not request.user.role.name == "Moderator":
+        raise Http404
+    
+    user = get_object_or_404(User, username=username)
+    user.delete()
+
+    return redirect('main:boards')
+
+@login_required(login_url="main:login")
 def delete_thread(request, thread_id):
     thread = get_object_or_404(Thread, id=thread_id)
     if not request.user.role.name == "Moderator" and not request.user.username == thread.username.username:
@@ -195,4 +207,5 @@ def delete_thread(request, thread_id):
     
     thread.delete()
 
-    return redirect('main:user', username=thread.username.username)
+    next_url = request.GET.get('next', '/')
+    return redirect(next_url)

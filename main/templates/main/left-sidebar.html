@@ -14,14 +14,14 @@
 
     {% if request.user.role.name == "Moderator" %}
         <h4>
-            Manage
+            Moderator Tools
         </h4>
-        <a href="{% url 'main:user' request.user.username %}" class="sidebar-buttons">
+        {% comment %} <a href="{% url 'main:user' request.user.username %}" class="sidebar-buttons">
             <div class="sidebar-button-content">
                 <i class="bi bi-pencil-square"></i>
                 Manage Threads
             </div>
-        </a>
+        </a> {% endcomment %}
         <a href="{% url 'main:create_board' %}" class="sidebar-buttons">
             <div class="sidebar-button-content">
                 <i class="bi bi-file-plus"></i>

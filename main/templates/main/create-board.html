@@ -26,7 +26,9 @@
                 <div class="error">{{ error }}</div>
             {% endfor %}
         </div>
-
+        {% for error in form.non_field_errors %}
+            <div class="error">{{ error }}</div>
+        {% endfor %}
         <button type="submit" id="new-board-submit">Create</button>
     </form>
 </main>

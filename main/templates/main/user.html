@@ -47,7 +47,7 @@
                         </h2>
                         <div class="thread-details">
                             {% if request.user.role.name == 'Moderator' or request.user.username == thread.username.username %}
-                                <a class="thread-by-username" href="{% url 'main:delete_thread' thread.id %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
+                                <a class="thread-by-username" href="{% url 'main:delete_thread' thread.id %}?next={% url 'main:user' user.username %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
                             {% endif %}
                             in <a class="thread-by-username" href="{% url 'main:threads' thread.board.board_id %}">{{ thread.board.name }}</a> <i class="bi bi-dot"></i> created {{ thread.created_at|timesince_short}} ago
                         </div>
@@ -60,9 +60,9 @@
     </div>
     {% if request.user.role.name == "Moderator" %}
         <h2 class="user-header">Moderator Settings</h2>
-        <form action="{% url 'main:ban_user' user.username %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Toggle Ban</button>
-        </form>
+        <div id="moderator-actions">
+            <a class="moderator-buttons" href="{% url 'main:ban_user' user.username %}">Toggle Ban</a>
+            <a class="moderator-buttons" href="{% url 'main:delete_user' user.username %}">Delete User</a>
+        </div>
     {% endif %}
 </main>

@@ -19,6 +19,7 @@
 
 .user-header {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #user-text {
@@ -26,7 +27,13 @@
 }
 
 #user-threads-created {
-    margin: 10px 0;
     max-height: 600px;
     overflow: scroll;
+}
+
+.moderator-buttons {
+    padding: 10px 20px;
+    border-radius: 30px;
+    background-color: rgb(222, 17, 17);
+    text-decoration: none;
 }
