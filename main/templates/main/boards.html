@@ -11,7 +11,7 @@
         </div>
         <div class="board-recent-thread">
             {% if board.thread %}
-                <h3>Recent Thread</h3>
+                <h3>Recent Activity</h3>
                 <div class="board-latest-thread-description">
                     <a href="{% url 'main:thread' board.info.board_id board.thread.id %}">
                         {{ board.thread.title }}

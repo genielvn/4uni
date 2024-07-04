@@ -9,6 +9,9 @@ urlpatterns = [
     path("user/login/", views.login, name='login'),
     path("user/signup/", views.signup, name='signup'),
     path("user/logout/", views.logout, name='logout'),
+    path("user/settings/", views.user_settings, name='user_settings'),
     path("user/<str:username>/", views.username, name='user'),
-    # path("user/settings/", views.user_settings, name='user_settings'),
+    path("manage/createboard/", views.create_board, name='create_board'),
+    path("manage/ban/<str:username>", views.ban_user, name='ban_user'),
+    path("manage/deletethread/<int:thread_id>", views.delete_thread, name='delete_thread'),
 ]

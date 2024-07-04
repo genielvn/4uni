@@ -24,10 +24,14 @@
                         </a>
                     </h2>
                     <div class="thread-details">
-                        by {{ thread.info.username }} <i class="bi bi-dot"></i> <i class="bi bi-chat-fill"></i> {{thread.reply_count}} 
+                        by <a class="thread-by-username" href="{% url 'main:user' thread.info.username %}">{{ thread.info.username }}</a> <i class="bi bi-dot"></i> 
+                        {% if request.user.role.name == 'Moderator' or request.user.username == thread.info.username.username %}
+                            <a class="thread-by-username" href="{% url 'main:user' thread.info.username %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
+                        {% endif %}
+                        <i class="bi bi-chat-fill"></i> {{thread.reply_count}} 
                         {% if thread.reply_count == 1 %} reply
                         {% else %} replies
-                        {% endif %}
+                        {% endif %} 
                     </div>
                 </div>
                 <div class="details-right">
@@ -36,9 +40,9 @@
                     </div>
                     <div class="last-reply">
                         {% if thread.reply %}
-                            last reply by {{ thread.reply.username }}
+                            last reply by <a class="thread-by-username" href="{% url 'main:user' thread.reply.username %}">{{ thread.reply.username }}</a>
                         {% else %}
-                            started by {{ thread.info.username }}
+                            started by <a class="thread-by-username" href="{% url 'main:user' thread.info.username %}">{{ thread.info.username }}</a>
                         {% endif %}
                     </div>
                 </div>

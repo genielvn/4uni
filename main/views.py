@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.utils import timezone
-from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm
+from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm, BoardForm
 from main.models import Board, Thread, User, Reply, Role
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import Http404
 
 @login_required(login_url="main:login")
 def boards(request):
@@ -38,8 +39,6 @@ def create_thread(request, board_id):
     board = get_object_or_404(Board, board_id=board_id)
 
     if request.method == "POST":
-        if request.user.is_banned:
-            return 
         form = ThreadForm(request.POST)
         if form.is_valid():
             thread = form.save(commit=False)
@@ -56,7 +55,7 @@ def create_thread(request, board_id):
         form = ThreadForm()
 
     context = {
-        'view': 'main/create-thread.html' if not request.user.is_banned else 'main/banned_tocreate.html', 
+        'view': 'main/create-thread.html', 
         'board': board,
         'form': form
     }
@@ -143,5 +142,57 @@ def logout(request):
     auth_logout(request)
     return redirect('/')
 
-def username(request):
-    pass
+@login_required(login_url="main:login")
+def username(request, username):
+    context = {
+        'view': 'main/user.html',
+        'user': get_object_or_404(User, username=username),
+        'threads_made': Thread.objects.filter(username=username).order_by('-created_at')
+    }
+    return render(request, 'base.html', context)
+
+@login_required(login_url="main:login")
+def user_settings(request):
+    return render(request, 'base.html', {'view':'main/user-settings.html', 'user': request.user})
+
+@login_required(login_url="main:login")
+def create_board(request):
+    if not request.user.role.name == "Moderator":
+        raise Http404
+    
+    if request.method == 'POST':
+        form = BoardForm(request.POST)
+        
+        if form.is_valid():
+            reply = form.save()
+
+            return redirect('main:threads', board_id=reply.board_id)  
+        else: 
+            form.add_error("board_id", "Duplicate ID!")
+    else:
+        form = BoardForm()
+
+    context = {
+        'view': 'main/create-board.html',
+    }
+
+    return render(request, 'base.html', context)
+    
+def ban_user(request, username):
+    if not request.user.role.name == "Moderator":
+        raise Http404
+    
+    user_to_ban = get_object_or_404(User, username=username)
+    user_to_ban.is_banned = not user_to_ban.is_banned
+    user_to_ban.save()
+
+    return redirect('main:user', username=username)
+
+def delete_thread(request, thread_id):
+    thread = get_object_or_404(Thread, id=thread_id)
+    if not request.user.role.name == "Moderator" and not request.user.username == thread.username.username:
+        raise Http404
+    
+    thread.delete()
+
+    return redirect('main:user', username=thread.username.username)

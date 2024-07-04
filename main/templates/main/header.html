@@ -9,6 +9,9 @@
     
     <div id="nav-right">
         <input type="text" name="search-bar" id="search-bar" placeholder="Search...">
-        <button id="log-in" class="account-controls" onclick="window.location=`/user/signup`">Join the fun</button>
+        <a href="{% url 'main:user_settings' %}">
+            <i class="bi bi-person-circle" id="user-settings-icon"></i>
+        </a>
+        {% comment %} <button id="log-in" class="account-controls" onclick="window.location=`/user/signup`">Join the fun</button> {% endcomment %}
     </div>
 </header>

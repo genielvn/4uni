@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User, Thread, Reply
+from .models import User, Thread, Reply, Board
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=50)
@@ -20,3 +20,8 @@ class ReplyForm(forms.ModelForm):
     class Meta:
         model = Reply
         fields = ['body', 'img']
+
+class BoardForm(forms.ModelForm):
+    class Meta:
+        model = Board
+        fields = ['board_id', 'name', 'description']

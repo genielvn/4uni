@@ -1,8 +1,33 @@
 <div id="left-sidebar">
-    <a href="" class="sidebar-buttons">
+    <a href="{% url 'main:boards' %}" class="sidebar-buttons">
         <div class="sidebar-button-content">
             <i class="bi bi-view-stacked"></i>
             Boards
         </div>
     </a>
+    <a href="{% url 'main:user' request.user.username %}" class="sidebar-buttons">
+        <div class="sidebar-button-content">
+            <i class="bi bi-pencil-fill"></i>
+            Your Threads
+        </div>
+    </a>
+
+    {% if request.user.role.name == "Moderator" %}
+        <h4>
+            Manage
+        </h4>
+        <a href="{% url 'main:user' request.user.username %}" class="sidebar-buttons">
+            <div class="sidebar-button-content">
+                <i class="bi bi-pencil-square"></i>
+                Manage Threads
+            </div>
+        </a>
+        <a href="{% url 'main:create_board' %}" class="sidebar-buttons">
+            <div class="sidebar-button-content">
+                <i class="bi bi-file-plus"></i>
+                Add Board
+            </div>
+        </a>
+
+    {% endif %}
 </div>

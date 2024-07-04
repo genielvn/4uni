@@ -18,3 +18,13 @@ header {
     margin: 0 10px;
     box-sizing: content-box;
 }
+
+#nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#user-settings-icon {
+    font-size: 30px;
+}

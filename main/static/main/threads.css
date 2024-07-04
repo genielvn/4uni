@@ -51,10 +51,20 @@
     font-style: italic;
 }
 
+.thread-by-username {
+    text-decoration: none;
+    color: inherit;
+}
+
+.thread-by-username:hover {
+    text-decoration: underline;
+}
+
 .details {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

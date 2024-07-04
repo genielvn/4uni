@@ -1,16 +1,68 @@
+{% load static %}
+{% load custom_filter %}
+
 <main id="user">
-    <h1>{{ user.username }}</h1>
-    <h2>Threads</h2>
-    {% for thread in threads %}
-    <div class="board">
-	<div class="board-name">
-	    <a href="/{{board.board_id}}">{{ board.board_id }}: {{ board.name }}</a>
-        </div>
-        <div class="board-description">
-            {{ board.description }}
+    <div class="current-location">    
+        <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / User
+    </div>
+    <div id="user-details">
+        <img src="{% static "img/profile_test.jpg" %}" id="user-image" alt="">
+        <div id="user-text">
+            <h1>
+                {{ user.username }}
+            </h1>
+            <h3>
+                Joined since {{ user.created_at }}
+            </h3>
+            <div class="account-icons">
+                    {% if user.role.name == "Moderator" %}
+                        <div class="moderator-icon icon">
+                            <i class="bi bi-shield-fill moderator-sym"></i>
+                            Moderator
+                        </div>
+                    {% endif %}
+                    {% if user.is_banned %}
+                        <div class="banned-icon icon">
+                            <i class="bi bi-ban banned-sym"></i>
+                            Banned
+                        </div>
+                    {% endif %}
+            </div>
+                
+            {% if request.user == user %}
+                <a href="{% url 'main:user_settings' %}">Account Settings</a>
+            {% endif %}
         </div>
     </div>
-    {% empty %}
-    <p>User hasn't made threads yet!.</p>
-    {% endfor %}
+    <h2 class="user-header">Threads created by {{ user.username }}</h2>
+    <div id="user-threads-created">
+        {% if threads_made %}
+            {% for thread in threads_made %}
+                <div class="thread">
+                    <div class="details-left">
+                        <h2 class="thread-name">
+                            <a href="/{{thread.board.board_id}}/{{thread.id}}">
+                                {{ thread.title }} 
+                            </a>
+                        </h2>
+                        <div class="thread-details">
+                            {% if request.user.role.name == 'Moderator' or request.user.username == thread.username.username %}
+                                <a class="thread-by-username" href="{% url 'main:delete_thread' thread.id %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
+                            {% endif %}
+                            in <a class="thread-by-username" href="{% url 'main:threads' thread.board.board_id %}">{{ thread.board.name }}</a> <i class="bi bi-dot"></i> created {{ thread.created_at|timesince_short}} ago
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            This user hasn't created any threads yet.
+        {% endif %}
+    </div>
+    {% if request.user.role.name == "Moderator" %}
+        <h2 class="user-header">Moderator Settings</h2>
+        <form action="{% url 'main:ban_user' user.username %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Toggle Ban</button>
+        </form>
+    {% endif %}
 </main>

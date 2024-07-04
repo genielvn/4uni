@@ -1,27 +1,33 @@
 <main id="create-thread-body">
-    <div class="current-location" href="/{{ board_id }}">
+    <div class="current-location">
         <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / 
         <a href="{% url 'main:threads' board.board_id %}">{{ board.name }}</a> / 
     </div>
     <h1>Create Thread</h1>
-
-    <form id="new-thread-form" action="{% url 'main:create_thread' board.board_id %}" method="POST">
-        {% csrf_token %}
-        <div class="thread-input">
-            <label for="new-thread-title">Title</label>
-            <input name="title" id="new-thread-title" type="text">
-            {% for error in form.title.errors %}
-                <div class="error">{{ error }}</div>
-            {% endfor %}
+    {% if request.user.is_banned %}
+        <div class="banned">
+            <h2>Banned</h2>
+            <p>You are banned from creating threads.</p>
         </div>
-        <div class="thread-input">
-            <label for="new-thread-body">Thread Body</label>
-            <textarea name="body"id="new-thread-body"></textarea>
-            {% for error in form.body.errors %}
-                <div class="error">{{ error }}</div>
-            {% endfor %}
-        </div>
+    {% else %}
+        <form id="new-thread-form" action="{% url 'main:create_thread' board.board_id %}" method="POST">
+            {% csrf_token %}
+            <div class="thread-input">
+                <label for="new-thread-title">Title</label>
+                <input name="title" id="new-thread-title" type="text">
+                {% for error in form.title.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="thread-input">
+                <label for="new-thread-body">Thread Body</label>
+                <textarea name="body"id="new-thread-body"></textarea>
+                {% for error in form.body.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
 
-        <button type="submit" id="new-thread-submit">Post</button>
-    </form>
+            <button type="submit" id="new-thread-submit">Post</button>
+        </form>
+    {% endif %}
 </main>

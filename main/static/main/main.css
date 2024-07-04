@@ -94,3 +94,9 @@ textarea {
     color: #f31d24;
     padding: 5px 15px;
 }
+
+.banned {
+    border: #f31d24 2px solid;
+    padding: 5px;
+    margin: 10px 0;
+}

@@ -1,0 +1,41 @@
+{% load static %}
+
+<main id="user-settings">
+    <div class="current-location">    
+        <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / User / Settings
+    </div>
+    <div id="user-details">
+        <img src="{% static "img/profile_test.jpg" %}" id="user-image" alt="">
+        <div id="user-text">
+            <h1>
+                {{ user.username }}
+            </h1>
+            <h3>
+                Joined since {{ user.created_at }}
+            </h3>
+            {% if user.role.name == "Moderator" %}
+                <div class="account-icons">
+                    <div class="moderator-icon icon">
+                        <i class="bi bi-shield-fill moderator-sym"></i>
+                        Moderator
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if user.is_banned %}
+        <div class="banned">
+            <h2>Message from the moderators</h2>
+            <p>You are currently banned on 4uni. You can still view boards and threads, but you won't be able to create threads or reply on specific threads.</p>
+        </div>
+    {% endif %}
+
+    <div class="user-header">
+        <h2>
+            Account Settings
+        </h2>
+    </div>
+    <div id="account-settings">
+        <a href="{% url "main:logout" %}" class="account-setting-btn">Log Out</a>
+    </div>
+</main>

@@ -1,0 +1,32 @@
+<main id="create-board">
+    <div class="current-location">
+        <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / Manage
+    </div>
+    <h1>Create Board</h1>
+    <form id="new-board-form" action="{% url 'main:create_board' %}" method="POST">
+        {% csrf_token %}
+        <div class="board-input">
+            <label for="new-board-id">ID</label>
+            <input name="board_id" id="new-board-id" type="text" placeholder="maximum of 5 characters">
+            {% for error in form.board_id.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="board-input">
+            <label for="new-board-name">Name</label>
+            <input name="name" id="new-board-name" type="text">
+            {% for error in form.name.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="board-input">
+            <label for="new-board-description">Description</label>
+            <input name="description" id="new-board-description" type="text">
+            {% for error in form.description.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" id="new-board-submit">Create</button>
+    </form>
+</main>

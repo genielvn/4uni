@@ -1,7 +1,7 @@
 {% load custom_filter %}
 
 <main id="post">
-    <div class="current-location" href="{% url 'main:threads' board.board_id %}">    
+    <div class="current-location">    
         <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / 
         <a href="{% url 'main:threads' board.board_id %}">{{ board.name }}</a> / 
     </div>
@@ -12,14 +12,18 @@
         </div>
         <div id="thread-body">{{ thread.body }}</div>
     </div>
-    <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="new-reply">
-        {% csrf_token %}
-        <textarea name="body" id="input-reply" placeholder="Reply to this thread"> </textarea>
-        {% for error in form.body.errors %}
-            <div class="error">{{ error }}</div>
-        {% endfor %}
-        <button id="submit-reply" type="submit">Comment</button>
-    </form>
+    {% if request.user.is_banned %}
+        <p class="banned"> You are banned from replying threads. </p>
+    {% else %}
+        <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="new-reply">
+            {% csrf_token %}
+            <textarea name="body" id="input-reply" placeholder="Reply to this thread"> </textarea>
+            {% for error in form.body.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+            <button id="submit-reply" type="submit">Comment</button>
+        </form>
+    {% endif %}
     <div id="replies">
         {% if replies %}
             {% for reply in replies %}
