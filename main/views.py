@@ -146,7 +146,8 @@ def username(request, username):
     context = {
         'view': 'main/user.html',
         'user': get_object_or_404(User, username=username),
-        'threads_made': Thread.objects.filter(username=username).order_by('-created_at')
+        'threads_made': Thread.objects.filter(username=username).order_by('-created_at'),
+        'replies_made': Reply.objects.filter(username=username).order_by('-created_at')
     }
     return render(request, 'base.html', context)
 

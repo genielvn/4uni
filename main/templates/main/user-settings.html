@@ -13,14 +13,7 @@
             <h3>
                 Joined since {{ user.created_at }}
             </h3>
-            {% if user.role.name == "Moderator" %}
-                <div class="account-icons">
-                    <div class="moderator-icon icon">
-                        <i class="bi bi-shield-fill moderator-sym"></i>
-                        Moderator
-                    </div>
-                </div>
-            {% endif %}
+            {% include "main/icons.html" %}
         </div>
     </div>
     {% if user.is_banned %}

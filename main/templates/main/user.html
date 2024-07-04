@@ -14,27 +14,19 @@
             <h3>
                 Joined since {{ user.created_at }}
             </h3>
-            <div class="account-icons">
-                    {% if user.role.name == "Moderator" %}
-                        <div class="moderator-icon icon">
-                            <i class="bi bi-shield-fill moderator-sym"></i>
-                            Moderator
-                        </div>
-                    {% endif %}
-                    {% if user.is_banned %}
-                        <div class="banned-icon icon">
-                            <i class="bi bi-ban banned-sym"></i>
-                            Banned
-                        </div>
-                    {% endif %}
-            </div>
+            {% include "main/icons.html" %}
                 
             {% if request.user == user %}
                 <a href="{% url 'main:user_settings' %}">Account Settings</a>
             {% endif %}
         </div>
     </div>
-    <h2 class="user-header">Threads created by {{ user.username }}</h2>
+
+    <div id="user-history-tab">
+        <button class="user-tab" onclick="to_threads()">Threads</button>
+        <button class="user-tab" onclick="to_replies()">Replies</button>
+    </div>
+
     <div id="user-threads-created">
         {% if threads_made %}
             {% for thread in threads_made %}
@@ -58,6 +50,27 @@
             This user hasn't created any threads yet.
         {% endif %}
     </div>
+    <div id="user-replies-created" class="hide">
+        {% if replies_made %}
+            {% for reply in replies_made %}
+                <div class="reply">
+                    <div class="reply-details">
+                        <a class="link-no-underline" href="{% url 'main:thread' reply.thread.board.board_id reply.thread.id %}">
+                            {{reply.thread.title}}
+                        </a>
+                    </div>
+                    <div class="reply-content">{{ reply.body }}</div>
+                    <span class="reply-date">{{ reply.created_at|timesince_short }} ago
+                        {% if request.user.role.name == 'Moderator' or request.user.username == reply.username.username %}
+                            <i class="bi bi-dot"></i> <a class="link-no-underline" href="{% url 'main:delete_reply' reply.id %}?next={% url 'main:user' user.username %}"> <i class="bi bi-trash-fill"></i> delete</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endfor %}
+        {% else %}
+            This user hasn't replied to any threads yet.
+        {% endif %}
+    </div>
     {% if request.user.role.name == "Moderator" %}
         <h2 class="user-header">Moderator Settings</h2>
         <div id="moderator-actions">
@@ -66,3 +79,4 @@
         </div>
     {% endif %}
 </main>
+<script src="{% static "js/user.js" %}"></script>

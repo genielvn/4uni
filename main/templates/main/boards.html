@@ -1,6 +1,10 @@
+{% load static %}
 {% load custom_filter %}
 
 <main id="main-boards">
+    <div id="board-list-header">
+        <img src="{% static "img/logo_280.png" %}" alt="4uni logo" id="board-list-header-image">
+    </div>
     {% for board in boards %}
     <div class="board">
         <h2 class="board-name">

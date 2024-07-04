@@ -1,0 +1,14 @@
+<div class="account-icons">
+    {% if user.role.name == "Moderator" %}
+        <div class="moderator-icon icon">
+            <i class="bi bi-shield-fill moderator-sym"></i>
+            Moderator
+        </div>
+    {% endif %}
+    {% if user.is_banned %}
+        <div class="banned-icon icon">
+            <i class="bi bi-ban banned-sym"></i>
+            Banned
+        </div>
+    {% endif %}
+</div>

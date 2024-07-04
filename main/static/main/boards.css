@@ -3,12 +3,26 @@
     flex-direction: column;
 }
 
+#board-list-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#board-list-header-image {
+    height: 120px;
+}
+
 .board {
     margin: 4px 0;
     padding: 15px;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #f180b3;
+    border-top: 1px solid #f180b3;
 }
 
 .board-name > a {

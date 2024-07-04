@@ -24,6 +24,8 @@
             <button id="submit-reply" type="submit">Comment</button>
         </form>
     {% endif %}
+
+    
     <div id="replies">
         {% if replies %}
             {% for reply in replies %}
@@ -33,8 +35,8 @@
                         <i class="bi bi-dot"></i> <a class="link-no-underline" href="{% url 'main:delete_reply' reply.id %}?next={% url 'main:thread' board.board_id thread.id %}"> <i class="bi bi-trash-fill"></i> delete</a>
                     {% endif %}
                 </span>
-            </div>
-            <div class="reply-content">{{ reply.body }}</div>
+                </div>
+                <div class="reply-content">{{ reply.body }}</div>
             
             </div>
             {% endfor %}   
