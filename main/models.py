@@ -52,7 +52,7 @@ class User(AbstractUser):
         return self.username
 
 class Thread(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField(null=True, blank=True)
