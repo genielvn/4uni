@@ -209,3 +209,14 @@ def delete_thread(request, thread_id):
 
     next_url = request.GET.get('next', '/')
     return redirect(next_url)
+
+@login_required(login_url="main:login")
+def delete_reply(request, reply_id):
+    reply = get_object_or_404(Reply, id=reply_id)
+    if not request.user.role.name == "Moderator" and not request.user.username == reply.username.username:
+        raise Http404
+    
+    reply.delete()
+
+    next_url = request.GET.get('next', '/')
+    return redirect(next_url)

@@ -24,9 +24,9 @@
                         </a>
                     </h2>
                     <div class="thread-details">
-                        by <a class="thread-by-username" href="{% url 'main:user' thread.info.username %}">{{ thread.info.username }}</a> <i class="bi bi-dot"></i> 
+                        by <a class="link-no-underline" href="{% url 'main:user' thread.info.username %}">{{ thread.info.username }}</a> <i class="bi bi-dot"></i> 
                         {% if request.user.role.name == 'Moderator' or request.user.username == thread.info.username.username %}
-                            <a class="thread-by-username" href="{% url 'main:delete_thread' thread.info.id %}?next={% url 'main:threads' board.board_id %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
+                            <a class="link-no-underline" href="{% url 'main:delete_thread' thread.info.id %}?next={% url 'main:threads' board.board_id %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
                         {% endif %}
                         <i class="bi bi-chat-fill"></i> {{thread.reply_count}} 
                         {% if thread.reply_count == 1 %} reply
@@ -40,9 +40,9 @@
                     </div>
                     <div class="last-reply">
                         {% if thread.reply %}
-                            last reply by <a class="thread-by-username" href="{% url 'main:user' thread.reply.username %}">{{ thread.reply.username }}</a>
+                            last reply by <a class="link-no-underline" href="{% url 'main:user' thread.reply.username %}">{{ thread.reply.username }}</a>
                         {% else %}
-                            started by <a class="thread-by-username" href="{% url 'main:user' thread.info.username %}">{{ thread.info.username }}</a>
+                            started by <a class="link-no-underline" href="{% url 'main:user' thread.info.username %}">{{ thread.info.username }}</a>
                         {% endif %}
                     </div>
                 </div>

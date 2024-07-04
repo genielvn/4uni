@@ -51,12 +51,12 @@
     font-style: italic;
 }
 
-.thread-by-username {
+.link-no-underline {
     text-decoration: none;
     color: inherit;
 }
 
-.thread-by-username:hover {
+.link-no-underline:hover {
     text-decoration: underline;
 }
 

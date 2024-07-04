@@ -47,9 +47,9 @@
                         </h2>
                         <div class="thread-details">
                             {% if request.user.role.name == 'Moderator' or request.user.username == thread.username.username %}
-                                <a class="thread-by-username" href="{% url 'main:delete_thread' thread.id %}?next={% url 'main:user' user.username %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
+                                <a class="link-no-underline" href="{% url 'main:delete_thread' thread.id %}?next={% url 'main:user' user.username %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
                             {% endif %}
-                            in <a class="thread-by-username" href="{% url 'main:threads' thread.board.board_id %}">{{ thread.board.name }}</a> <i class="bi bi-dot"></i> created {{ thread.created_at|timesince_short}} ago
+                            in <a class="link-no-underline" href="{% url 'main:threads' thread.board.board_id %}">{{ thread.board.name }}</a> <i class="bi bi-dot"></i> created {{ thread.created_at|timesince_short}} ago
                         </div>
                     </div>
                 </div>

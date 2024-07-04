@@ -8,7 +8,7 @@
     <div id="main-thread">
         <div id="thread-details">
             <h1 id="thread-title">{{ thread.title }}</h1>
-            <div id="thread-author-date">by {{ thread.username }} <i class="bi bi-dot"></i> <span id="thread-date">{{ thread.created_at|timesince_short }} ago</span></div>
+            <div id="thread-author-date">by <a class="link-no-underline" href="{% url 'main:user' thread.username %}">{{ thread.username }}</a> <i class="bi bi-dot"></i> <span id="thread-date">{{ thread.created_at|timesince_short }} ago</span></div>
         </div>
         <div id="thread-body">{{ thread.body }}</div>
     </div>
@@ -28,8 +28,14 @@
         {% if replies %}
             {% for reply in replies %}
             <div class="reply">
-                <div class="reply-details">{{ reply.username }} <i class="bi bi-dot"></i> <span class="reply-date">{{ reply.created_at|timesince_short }} ago</span></div>
-                <div class="reply-content">{{ reply.body }}</div>
+                <div class="reply-details"><a class="link-no-underline" href="{% url 'main:user' reply.username %}">{{ reply.username }} </a> <i class="bi bi-dot"></i> <span class="reply-date">{{ reply.created_at|timesince_short }} ago
+                    {% if request.user.role.name == 'Moderator' or request.user.username == reply.username.username %}
+                        <i class="bi bi-dot"></i> <a class="link-no-underline" href="{% url 'main:delete_reply' reply.id %}?next={% url 'main:thread' board.board_id thread.id %}"> <i class="bi bi-trash-fill"></i> delete</a>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="reply-content">{{ reply.body }}</div>
+            
             </div>
             {% endfor %}   
         {% else %}
@@ -37,6 +43,5 @@
             No replies yet!
         </div>
         {% endif %} 
-        
     </div>
 </main>
