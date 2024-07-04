@@ -119,7 +119,7 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            password = form.cleaned_data.get('password')
+            password = form.cleaned_data.get('password1')
             user.set_password(password)
             user.role = Role.objects.get(name='User')
             user.save()
