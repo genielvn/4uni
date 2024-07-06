@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.utils import timezone
-from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm, BoardForm
+from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm, BoardForm, EditThreadForm
 from main.models import Board, Thread, User, Reply, Role
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import Http404
@@ -96,6 +96,28 @@ def thread(request, board_id, thread_id):
         }
 
     return render(request, 'base.html', context)
+
+@login_required(login_url="main:login")
+def edit_thread(request, board_id, thread_id):
+    if not request.user.role.name == "Moderator" and not request.user.username == thread.username.username:
+        raise 
+
+    board = get_object_or_404(Board, board_id=board_id)
+    thread = get_object_or_404(Thread, board=board, id=thread_id, is_deleted=False)
+    
+    if request.method == 'POST':
+        form = EditThreadForm(request.POST)
+        if form.is_valid():
+            thread.body = form.cleaned_data.get('body')
+            thread.save()
+   
+            return redirect('main:thread', board_id=board_id, thread_id=thread_id)
+
+
+    else:
+        form = EditThreadForm()
+
+
 
 def login(request):
     if request.method == 'POST':

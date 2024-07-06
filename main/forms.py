@@ -16,6 +16,11 @@ class ThreadForm(forms.ModelForm):
         model = Thread
         fields = ['title', 'body', 'img']
 
+class EditThreadForm(forms.ModelForm):
+    class Meta:
+        model = Thread
+        fields = ['body', 'img']
+
 class ReplyForm(forms.ModelForm):
     class Meta:
         model = Reply

@@ -17,14 +17,23 @@
     font-style: italic;
 }
 
-#new-reply {
+#thread-settings {
+    color: #5b5b5b;
+    font-size: 0.8em;
+    padding: 5px 0;
+}
+
+#new-reply,
+#edit-thread {
     display: flex;
     flex-direction: column;
     height: 150px;
     align-items: flex-end;
+    padding-top: 10px;
 }
 
-#input-reply {
+#input-reply,
+#input-edit-thread {
     padding: 10px;
     height: 100%;
     width: 100%;
@@ -36,7 +45,8 @@
     color: #f180b3;
 }
 
-#submit-reply {
+#submit-reply,
+#submit-edited-thread {
     padding: 10px 20px;
     margin: 10px 0;
 }

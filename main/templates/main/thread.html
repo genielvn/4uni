@@ -11,8 +11,29 @@
             <h1 id="thread-title">{{ thread.title }}</h1>
             <div id="thread-author-date">by <a class="link-no-underline" href="{% url 'main:user' thread.username %}">{{ thread.username }}</a> <i class="bi bi-dot"></i> <span id="thread-date">{{ thread.created_at|timesince_short }} ago</span></div>
         </div>
+        <div id="thread-settings">
+            {% if request.user.role.name == 'Moderator' or request.user.username == thread.username.username %}
+                <a id="id-delete-thread-{{thread.id}}" class="link-no-underline" href="#" onclick="confirm('id-delete-thread-{{thread.id}}', 'id-confirm-thread-{{thread.id}}')"><i class="bi bi-trash-fill"></i> delete</a>
+                <a id="id-confirm-thread-{{thread.id}}" class="link-no-underline hide" href="{% url 'main:delete_thread' thread.id %}?next={% url 'main:threads' thread.board.board_id %}"> <i class="bi bi-trash-fill"></i> confirm</a>
+            {% endif %}
+            {% if request.user.username == thread.username.username and not request.user.is_banned %}
+                <i class="bi bi-dot"></i> 
+                <a class="link-no-underline" href="#" onclick="showEditForm()"> <i class="bi bi-pencil-fill"></i> edit</a>
+            {% endif %}
+        </div>
+        <form action="{% url 'main:edit_thread' board.board_id thread.id %}" method="POST" class="hide" id="edit-thread">
+            {% csrf_token %}
+            <textarea name="body" id="input-edit-thread" placeholder="Edit Thread">{{thread.body}}</textarea>
+            {% for error in form.body.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+            <button id="submit-edited-thread" type="submit">Edit Thread</button>
+        </form>
+
         <div id="thread-body">{{ thread.body }}</div>
     </div>
+
+
     {% if request.user.is_banned %}
         <p class="banned"> You are banned from replying threads. </p>
     {% else %}
@@ -40,7 +61,6 @@
                 </span>
                 </div>
                 <div class="reply-content">{{ reply.body }}</div>
-            
             </div>
             {% endfor %}   
         {% else %}
@@ -51,3 +71,4 @@
     </div>
 </main>
 <script src="{% static "js/confirm.js" %}"></script> 
+<script src="{% static "js/thread.js" %}"></script> 
