@@ -39,7 +39,9 @@
                         </h2>
                         <div class="thread-details">
                             {% if request.user.role.name == 'Moderator' or request.user.username == thread.username.username %}
-                                <a class="link-no-underline" href="{% url 'main:delete_thread' thread.id %}?next={% url 'main:user' user.username %}"> <i class="bi bi-trash-fill"></i> delete</a><i class="bi bi-dot"></i> 
+                                <i class="bi bi-trash-fill"></i>
+                                <a id="id-delete-thread-{{thread.id}}" class="link-no-underline" href="#" onclick="confirm('id-delete-thread-{{thread.id}}', 'id-confirm-thread-{{thread.id}}')"> delete</a>
+                                <a id="id-confirm-thread-{{thread.id}}" href="{% url 'main:delete_thread' thread.id %}?next={% url 'main:user' user.username %}" class="link-no-underline hide">confirm</a><i class="bi bi-dot"></i> 
                             {% endif %}
                             in <a class="link-no-underline" href="{% url 'main:threads' thread.board.board_id %}">{{ thread.board.name }}</a> <i class="bi bi-dot"></i> created {{ thread.created_at|timesince_short}} ago
                         </div>
@@ -62,7 +64,9 @@
                     <div class="reply-content">{{ reply.body }}</div>
                     <span class="reply-date">{{ reply.created_at|timesince_short }} ago
                         {% if request.user.role.name == 'Moderator' or request.user.username == reply.username.username %}
-                            <i class="bi bi-dot"></i> <a class="link-no-underline" href="{% url 'main:delete_reply' reply.id %}?next={% url 'main:user' user.username %}"> <i class="bi bi-trash-fill"></i> delete</a>
+                            <i class="bi bi-dot"></i> 
+                            <a id="id-delete-reply-{{reply.id}}" class="link-no-underline" href="#" onclick="confirm('id-delete-reply-{{reply.id}}', 'id-confirm-reply-{{reply.id}}')"> <i class="bi bi-trash-fill"></i> delete</a>
+                            <a id="id-confirm-reply-{{reply.id}}" class="link-no-underline hide" href="{% url 'main:delete_reply' reply.id %}?next={% url 'main:user' user.username %}"> <i class="bi bi-trash-fill"></i> confirm</a>
                         {% endif %}
                     </span>
                 </div>
@@ -80,3 +84,4 @@
     {% endif %}
 </main>
 <script src="{% static "js/user.js" %}"></script>
+<script src="{% static "js/confirm.js" %}"></script> 
