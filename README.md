@@ -17,7 +17,7 @@ dont forget to install the requirements
 pip install -r requirements.txt
 ```
 
-## working with the (fucking) database
+## working with the database
 to drop all tables and reset it to initial state, delete all files in the migration folder and do the following IN ORDER.
 ```
 py manage.py sqlflush
@@ -26,9 +26,9 @@ py manage.py makemigrations
 py manage.py sqlmigrate main 0001
 py manage.py migrate
 ```
-if things doesnt work still, delete the fucking db. (this took me like 20 minutes to figure it out)
+if things doesnt work still, delete the db. (this took me like 20 minutes to figure it out)
 
-if you see a conflict between user and admin shit, or something like that, comment 'django.contrib.admin' on setting.py and the admin url on fouruni/urls.py. idk why, but i am getting fucking errors.
+if you see a conflict between user and admin shit, or something like that, comment 'django.contrib.admin' on setting.py and the admin url on fouruni/urls.py. idk why, but i am getting errors.
 
 ## Testing the database
 ```
