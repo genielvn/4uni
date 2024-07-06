@@ -21,7 +21,14 @@
             </div>
             <div class="thread-input">
                 <label for="new-thread-body">Thread Body</label>
-                <textarea name="body"id="new-thread-body"></textarea>
+                <textarea name="body" id="new-thread-body"></textarea>
+                {% for error in form.body.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="thread-input">
+                <label for="new-thread-img">Thread Image Link</label>
+                <textarea name="img" id="new-thread-img"></textarea>
                 {% for error in form.body.errors %}
                     <div class="error">{{ error }}</div>
                 {% endfor %}
