@@ -35,7 +35,7 @@
 #edit-thread {
     display: flex;
     flex-direction: column;
-    height: 150px;
+    height: 250px;
     align-items: flex-end;
     padding-top: 10px;
 }
@@ -54,7 +54,9 @@
 }
 
 #submit-reply,
-#submit-edited-thread {
+#submit-edited-thread,
+#upload-reply-image,
+#new-reply-img {
     padding: 10px 20px;
     margin: 10px 0;
 }

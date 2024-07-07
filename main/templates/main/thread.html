@@ -37,18 +37,22 @@
         </form>
     </div>
 
-
+    <h3>Reply to this thread</h3>
     {% if request.user.is_banned %}
         <p class="banned"> You are banned from replying threads. </p>
     {% else %}
-        <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="new-reply">
+        <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="new-reply" enctype="multipart/form-data">
             {% csrf_token %}
             <textarea name="body" id="input-reply" placeholder="Reply to this thread"> </textarea>
             {% comment %} <textarea name="img" id="input-reply" placeholder="Image link (optional)"> </textarea> {% endcomment %}
             {% for error in form.body.errors %}
                 <div class="error">{{ error }}</div>
             {% endfor %}
-            <button id="submit-reply" type="submit">Comment</button>
+            <div class="reply-buttons">
+                <button id="upload-reply-image" onclick="showUploadImage()" type="button">Add Image</button>
+                <input name="img_upload" id="new-reply-img" type="file" accept="image/*" class="hide">
+                <button id="submit-reply" type="submit">Comment</button>
+            </div>
         </form>
     {% endif %}
 
@@ -56,18 +60,18 @@
     <div id="replies">
         {% if replies %}
             {% for reply in replies %}
-            <div class="reply">
-                <div class="reply-details"><a class="link-no-underline" href="{% url 'main:user' reply.username %}">{{ reply.username }} </a> <i class="bi bi-dot"></i> <span class="reply-date">{{ reply.created_at|timesince_short }} ago
-                    {% if request.user.role.name == 'Moderator' or request.user.username == reply.username.username %}
-                        <i class="bi bi-dot"></i> 
-                        <a id="id-delete-reply-{{reply.id}}" class="link-no-underline" href="#" onclick="confirm('id-delete-reply-{{reply.id}}', 'id-confirm-reply-{{reply.id}}')"> <i class="bi bi-trash-fill"></i> delete</a>
-                        <a id="id-confirm-reply-{{reply.id}}" class="link-no-underline hide" href="{% url 'main:delete_reply' reply.id %}?next={% url 'main:thread' board.board_id thread.id %}"> <i class="bi bi-trash-fill"></i> confirm</a>                  
-                    {% endif %}
-                </span>
-                </div>
-		{% if reply.img %}
-		<div class="reply-img"><img src="{{ reply.img }}" style="width: 100%;"></div>
-		{% endif %}
+                <div class="reply">
+                    <div class="reply-details"><a class="link-no-underline" href="{% url 'main:user' reply.username %}">{{ reply.username }} </a> <i class="bi bi-dot"></i> <span class="reply-date">{{ reply.created_at|timesince_short }} ago
+                        {% if request.user.role.name == 'Moderator' or request.user.username == reply.username.username %}
+                            <i class="bi bi-dot"></i> 
+                            <a id="id-delete-reply-{{reply.id}}" class="link-no-underline" href="#" onclick="confirm('id-delete-reply-{{reply.id}}', 'id-confirm-reply-{{reply.id}}')"> <i class="bi bi-trash-fill"></i> delete</a>
+                            <a id="id-confirm-reply-{{reply.id}}" class="link-no-underline hide" href="{% url 'main:delete_reply' reply.id %}?next={% url 'main:thread' board.board_id thread.id %}"> <i class="bi bi-trash-fill"></i> confirm</a>                  
+                        {% endif %}
+                    </span>
+                    </div>
+                {% if reply.img_upload %}
+                    <div class="reply-img" style="width: 100%;"><img src="{{ reply.img_upload.url }}" style="width: 20%;"></div>
+                {% endif %}
                 <div class="reply-content">{{ reply.body }}</div>
             </div>
             {% endfor %}   

@@ -24,7 +24,7 @@ class EditThreadForm(forms.ModelForm):
 class ReplyForm(forms.ModelForm):
     class Meta:
         model = Reply
-        fields = ['body', 'img']
+        fields = ['body', 'img_upload']
 
 class BoardForm(forms.ModelForm):
     class Meta:

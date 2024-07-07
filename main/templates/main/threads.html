@@ -27,8 +27,8 @@
                     <div class="thread-details">
                         by <a class="link-no-underline" href="{% url 'main:user' thread.info.username %}">{{ thread.info.username }}</a> <i class="bi bi-dot"></i> 
                         {% if request.user.role.name == 'Moderator' or request.user.username == thread.info.username.username %}
-                            <a id="id-delete-thread-{{thread.id}}" class="link-no-underline" href="#" onclick="confirm('id-delete-thread-{{thread.id}}', 'id-confirm-thread-{{thread.id}}')"><i class="bi bi-trash-fill"></i> delete</a>
-                            <a id="id-confirm-thread-{{thread.id}}" class="link-no-underline hide" href="{% url 'main:delete_thread' thread.info.id %}?next={% url 'main:threads' board.board_id %}"> <i class="bi bi-trash-fill"></i> confirm</a>
+                            <a id="id-delete-thread-{{thread.info.id}}" class="link-no-underline" href="#" onclick="confirm('id-delete-thread-{{thread.info.id}}', 'id-confirm-thread-{{thread.info.id}}')"><i class="bi bi-trash-fill"></i> delete</a>
+                            <a id="id-confirm-thread-{{thread.info.id}}" class="link-no-underline hide" href="{% url 'main:delete_thread' thread.info.id %}?next={% url 'main:threads' board.board_id %}"> <i class="bi bi-trash-fill"></i> confirm</a>
                             <i class="bi bi-dot"></i> 
                         {% endif %}
                         <i class="bi bi-chat-fill"></i> {{thread.reply_count}} 
