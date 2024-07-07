@@ -14,12 +14,12 @@ class SignupForm(UserCreationForm):
 class ThreadForm(forms.ModelForm):
     class Meta:
         model = Thread
-        fields = ['title', 'body', 'img']
+        fields = ['title', 'body', 'img_upload']
 
 class EditThreadForm(forms.ModelForm):
     class Meta:
         model = Thread
-        fields = ['body', 'img']
+        fields = ['body', 'img_link']
 
 class ReplyForm(forms.ModelForm):
     class Meta:

@@ -10,7 +10,7 @@
             <p>You are banned from creating threads.</p>
         </div>
     {% else %}
-        <form id="new-thread-form" action="{% url 'main:create_thread' board.board_id %}" method="POST">
+        <form id="new-thread-form" action="{% url 'main:create_thread' board.board_id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="thread-input">
                 <label for="new-thread-title">Title</label>
@@ -27,9 +27,9 @@
                 {% endfor %}
             </div>
             <div class="thread-input">
-                <label for="new-thread-img">Thread Image Link</label>
-                <textarea name="img" id="new-thread-img"></textarea>
-                {% for error in form.body.errors %}
+                <label for="new-thread-img">Image</label>
+                <input name="img_upload" id="new-thread-img" type="file" accept="image/*">
+                {% for error in form.img_upload.errors %} 
                     <div class="error">{{ error }}</div>
                 {% endfor %}
             </div>

@@ -29,6 +29,11 @@
     font-size: inherit;
 }
 
+#new-thread-img {
+    border-color: #5b5b5b;
+    font-size: inherit;
+}
+
 #new-thread-body {
     border-color: #5b5b5b;
     height: 100px;

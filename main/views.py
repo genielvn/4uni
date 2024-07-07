@@ -39,7 +39,7 @@ def create_thread(request, board_id):
     board = get_object_or_404(Board, board_id=board_id)
 
     if request.method == "POST":
-        form = ThreadForm(request.POST)
+        form = ThreadForm(request.POST, request.FILES)
         if form.is_valid():
             thread = form.save(commit=False)
             thread.board = board
@@ -59,7 +59,6 @@ def create_thread(request, board_id):
         'board': board,
         'form': form
     }
-    print(request.user)
     return render(request, "base.html", context)
 
 @login_required(login_url="main:login")

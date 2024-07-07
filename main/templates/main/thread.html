@@ -21,6 +21,12 @@
                 <a class="link-no-underline" href="#" onclick="showEditForm()"> <i class="bi bi-pencil-fill"></i> edit</a>
             {% endif %}
         </div>
+        
+
+        {% if thread.img_upload %}
+            <div id="thread-img"><img id="thread-img-url" src="{{thread.img_upload.url}}"></div>
+        {% endif %}
+        <div id="thread-body">{{ thread.body }}</div>
         <form action="{% url 'main:edit_thread' board.board_id thread.id %}" method="POST" class="hide" id="edit-thread">
             {% csrf_token %}
             <textarea name="body" id="input-edit-thread" placeholder="Edit Thread">{{thread.body}}</textarea>
@@ -29,11 +35,6 @@
             {% endfor %}
             <button id="submit-edited-thread" type="submit">Edit Thread</button>
         </form>
-
-	{% if thread.img %}
-	<div id="thread-img" style="width: 100%;"><img src="{{ thread.img }}" style="width: 100%;"></div>
-	{% endif %}
-        <div id="thread-body">{{ thread.body }}</div>
     </div>
 
 
@@ -43,7 +44,7 @@
         <form action="{% url 'main:thread' board.board_id thread.id %}" method="POST" id="new-reply">
             {% csrf_token %}
             <textarea name="body" id="input-reply" placeholder="Reply to this thread"> </textarea>
-            <textarea name="img" id="input-reply" placeholder="Image link (optional)"> </textarea>
+            {% comment %} <textarea name="img" id="input-reply" placeholder="Image link (optional)"> </textarea> {% endcomment %}
             {% for error in form.body.errors %}
                 <div class="error">{{ error }}</div>
             {% endfor %}

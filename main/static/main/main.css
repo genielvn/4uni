@@ -49,11 +49,16 @@ footer {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="file"] {
     background-color: #ffffff00;
     border-radius: 20px;
     border: solid #ff52a2 2px;
     padding: 0 15px;
+}
+
+input[type="file"] {
+    padding: 15px;
 }
 
 textarea {

@@ -8,6 +8,14 @@
     margin: 25px 0;
 }
 
+#thread-img {
+    max-width: 100%;
+}
+
+#thread-img-url {
+    max-width: 40%;
+}
+
 #thread-author-date {
     font-size: 0.8em;
 }
