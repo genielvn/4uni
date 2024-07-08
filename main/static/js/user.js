@@ -7,3 +7,5 @@ function to_threads() {
     $("#user-threads-created").removeClass("hide");
     $("#user-replies-created").addClass("hide");
 }
+
+function showProfileDecoSettings() {}

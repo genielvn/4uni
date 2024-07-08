@@ -4,18 +4,7 @@
     <div class="current-location">    
         <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / User / Settings
     </div>
-    <div id="user-details">
-        <img src="{% static "img/profile_test.jpg" %}" id="user-image" alt="">
-        <div id="user-text">
-            <h1>
-                {{ user.username }}
-            </h1>
-            <h3>
-                Joined since {{ user.created_at }}
-            </h3>
-            {% include "main/icons.html" %}
-        </div>
-    </div>
+    {% include 'main/account-banner.html' %}
     {% if user.is_banned %}
         <div class="banned">
             <h2>Message from the moderators</h2>
@@ -23,12 +12,27 @@
         </div>
     {% endif %}
 
-    <div class="user-header">
+    <div class="user-h2">
         <h2>
             Account Settings
         </h2>
     </div>
-    <div id="account-settings">
+    <form id="user-deco-upload" action="{% url 'main:upload_deco' user.username %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="user-upload-input">
+            <label for="new-thread-img">Profile Picture</label>
+            <input name="profile_picture" id="new-prof-pic" type="file" accept="image/*">
+        </div>
+        <div class="user-upload-input">
+            <label for="new-thread-img">Profile Banner</label>
+            <input name="profile_banner" id="new-prof-banner" type="file" accept="image/*">
+        </div>
+        {% for error in form.img_upload.errors %} 
+            <div class="error">{{ error }}</div>
+        {% endfor %}
+        <button type="submit" id="#upload-pic-banner">Upload Images</button>
+    </form>
+    <div id="user-settings-menu">
         <a href="{% url "main:logout" %}" class="account-setting-btn">Log Out</a>
     </div>
-</main>
+</main>     

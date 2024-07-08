@@ -1,0 +1,26 @@
+{% load static %}
+
+{% if user.profile_picture %}
+    <div id="user-details" style="background-image: url({{user.profile_banner.url}})">
+{% else %}
+    <div id="user-details" style="background-image: url('{% static "img/default_banner.jpg" %}');">
+{% endif %}
+        <div id="user-header">
+            {% if user.profile_picture  %}
+                <img src="{{ user.profile_picture.url }}" id="user-image" alt="">
+
+            {% else %}
+                <img src="{% static "img/default_basil.jpg" %}" id="user-image" alt="">
+            {% endif %}
+        <div id="user-text">
+            <h1>
+                {{ user.username }}
+            </h1>
+            <h3>
+                Joined since {{ user.created_at }}
+            </h3>
+            {% include "main/icons.html" %}
+        </div>
+    </div>
+    
+</div>

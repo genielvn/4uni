@@ -8,3 +8,5 @@ local_settings.py
 .env
 db.sqlite3
 media/images
+banner
+media/profile

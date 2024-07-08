@@ -8,23 +8,41 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 30px;
-    padding-bottom: 20px;
+    padding: 20px 50px;
+    width: calc(100% + 50px);
+    height: 300px;
+    margin: 10px -25px;
+    /* background-color: blue; */
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+}
+
+#user-header {
+    /* padding: 0px 20px;s */
+    display: flex;
+    flex-direction: row;
 }
 
 #user-image {
-    height: 120px;
+    height: 200px;
     aspect-ratio: 1 / 1;
     border-radius: 100%;
-}
-
-.user-header {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    object-fit: cover;
 }
 
 #user-text {
-    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    justify-content: center;
+    text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
+        -1px -1px #000, 1px -1px #000, -1px 1px #000;
+}
+
+.user-h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 #user-history-tab {

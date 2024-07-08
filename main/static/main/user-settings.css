@@ -1,5 +1,36 @@
 #user-settings {
     display: flex;
+    position: relative;
     flex-direction: column;
     padding: 25px;
+}
+
+#user-settings-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+#user-deco-upload {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 10px 0;
+    border: solid #ff52a2 2px;
+    padding: 10px;
+    margin: 20px 0;
+}
+
+.user-upload-input {
+    display: flex;
+    flex-direction: column;
+}
+
+#new-prof-pic,
+#new-prof-banner {
+    padding: 10px 10px;
+    margin: 10px 0;
+}
+
+#upload-pic-banner {
+    width: 80px;
 }

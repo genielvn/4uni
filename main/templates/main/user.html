@@ -5,22 +5,7 @@
     <div class="current-location">    
         <a href="{% url 'main:boards' %}"><i class="bi bi-house"></i></a> / User
     </div>
-    <div id="user-details">
-        <img src="{% static "img/profile_test.jpg" %}" id="user-image" alt="">
-        <div id="user-text">
-            <h1>
-                {{ user.username }}
-            </h1>
-            <h3>
-                Joined since {{ user.created_at }}
-            </h3>
-            {% include "main/icons.html" %}
-                
-            {% if request.user == user %}
-                <a href="{% url 'main:user_settings' %}">Account Settings</a>
-            {% endif %}
-        </div>
-    </div>
+    {% include "main/account-banner.html" %}
 
     <div id="user-history-tab">
         <button class="user-tab" onclick="to_threads()">Threads</button>
@@ -76,7 +61,7 @@
         {% endif %}
     </div>
     {% if request.user.role.name == "Moderator" %}
-        <h2 class="user-header">Moderator Settings</h2>
+        <h2 class="user-h2">Moderator Settings</h2>
         <div id="moderator-actions">
             <a class="moderator-buttons" href="{% url 'main:ban_user' user.username %}">Toggle Ban</a>
             <a class="moderator-buttons" href="{% url 'main:delete_user' user.username %}">Delete User</a>

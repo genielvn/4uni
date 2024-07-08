@@ -43,6 +43,8 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     is_banned = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
+    profile_picture = models.ImageField(null=True, blank=True, upload_to='profile/')
+    profile_banner = models.ImageField(null=True, blank=True, upload_to='banner/')
     signature = models.TextField(null=True, blank=True)    # nullable, optional
 
     class Meta:

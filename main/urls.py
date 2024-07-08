@@ -12,6 +12,7 @@ urlpatterns = [
     path("user/signup/", views.signup, name='signup'),
     path("user/logout/", views.logout, name='logout'),
     path("user/settings/", views.user_settings, name='user_settings'),
+    path("user/settings/deco/<str:username>", views.upload_deco, name='upload_deco'),
     path("user/<str:username>/", views.username, name='user'),
     path("manage/createboard/", views.create_board, name='create_board'),
     path("manage/ban/<str:username>", views.ban_user, name='ban_user'),

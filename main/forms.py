@@ -30,3 +30,8 @@ class BoardForm(forms.ModelForm):
     class Meta:
         model = Board
         fields = ['board_id', 'name', 'description']
+
+class DecoForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['profile_picture', 'profile_banner']

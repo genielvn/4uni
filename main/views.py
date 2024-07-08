@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.utils import timezone
-from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm, BoardForm, EditThreadForm
+from .forms import ThreadForm, LoginForm, SignupForm, ReplyForm, BoardForm, EditThreadForm, DecoForm
 from main.models import Board, Thread, User, Reply, Role
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import Http404
@@ -67,7 +67,7 @@ def thread(request, board_id, thread_id):
     thread = get_object_or_404(Thread, board=board, id=thread_id, is_deleted=False)
 
     if request.method == 'POST':
-        form = ReplyForm(request.POST)
+        form = ReplyForm(request.POST, request.FILES)
         
         if form.is_valid():
             reply = form.save(commit=False)
@@ -81,7 +81,7 @@ def thread(request, board_id, thread_id):
 
             return redirect('main:thread', board_id=board_id, thread_id=thread_id)  
         else: 
-            form.add_error("body", "Hey, at least specify your reply :<")
+            pass
     else:
         form = ReplyForm()
 
@@ -99,7 +99,7 @@ def thread(request, board_id, thread_id):
 @login_required(login_url="main:login")
 def edit_thread(request, board_id, thread_id):
     if not request.user.role.name == "Moderator" and not request.user.username == thread.username.username:
-        raise 
+        raise Http404
 
     board = get_object_or_404(Board, board_id=board_id)
     thread = get_object_or_404(Thread, board=board, id=thread_id, is_deleted=False)
@@ -242,3 +242,24 @@ def delete_reply(request, reply_id):
 
     next_url = request.GET.get('next', '/')
     return redirect(next_url)
+
+@login_required(login_url="main:login")
+def upload_deco(request, username):
+    if not request.user.username == username:
+        raise Http404
+    
+    user = User.objects.get(username=username)
+    
+    if request.method == "POST":
+        form = DecoForm(request.POST, request.FILES)
+        if form.is_valid():
+            user.profile_picture = form.cleaned_data.get('profile_picture')
+            user.profile_banner = form.cleaned_data.get('profile_banner')
+
+            user.save()
+
+            return redirect('main:user_settings')
+        else:
+            pass
+    else:
+        form = DecoForm()
